@@ -175,6 +175,7 @@ export function MermaidEditorClient() {
   handDrawnRef.current = handDrawn;
 
   const svgContainerRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const renderDiagram = useCallback(async (source: string, cfgText: string, sketch: boolean) => {
@@ -235,6 +236,19 @@ export function MermaidEditorClient() {
   function zoomIn() { setZoom((z) => Math.min(parseFloat((z + 0.25).toFixed(2)), 4)); }
   function zoomOut() { setZoom((z) => Math.max(parseFloat((z - 0.25).toFixed(2)), 0.25)); }
   function zoomReset() { setZoom(1); }
+
+  // Mouse-wheel zoom on the preview panel
+  useEffect(() => {
+    const el = previewRef.current;
+    if (!el) return;
+    function onWheel(e: WheelEvent) {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.1 : 0.1;
+      setZoom((z) => parseFloat(Math.min(4, Math.max(0.25, z + delta)).toFixed(2)));
+    }
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
 
   // ── Theme helpers ──────────────────────────────────────────────────────────
   function applyTheme(name: string) {
@@ -596,7 +610,7 @@ export function MermaidEditorClient() {
         </div>
 
         {/* Right panel: preview */}
-        <div className="flex-1 overflow-hidden relative" style={previewBgStyle}>
+        <div ref={previewRef} className="flex-1 overflow-hidden relative" style={previewBgStyle}>
           {/* Hidden SVG for measurement */}
           {svgHtml && (
             <div
