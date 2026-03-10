@@ -90,7 +90,7 @@ export async function exportAsPdf(markdown: string): Promise<void> {
  * Falls back to an SVG data URI if the canvas gets tainted
  * (e.g. Mermaid SVGs that contain <foreignObject>).
  */
-async function svgToImgSrc(svgEl: SVGElement): Promise<string | null> {
+async function svgToImgSrc(svgEl: SVGSVGElement): Promise<string | null> {
   const svgData = new XMLSerializer().serializeToString(svgEl);
   const svgDataUri = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgData)}`;
 
@@ -128,7 +128,7 @@ export async function exportAsDocx(markdown: string, filename = "document"): Pro
   const doc = parser.parseFromString(bodyHtml, "text/html");
   const svgWrappers = doc.querySelectorAll<HTMLElement>("div[style*='text-align: center'] svg, div[style*='text-align:center'] svg");
   for (const svgEl of svgWrappers) {
-    const src = await svgToImgSrc(svgEl as SVGElement);
+    const src = await svgToImgSrc(svgEl as unknown as SVGSVGElement);
     if (src) {
       const img = doc.createElement("img");
       img.src = src;

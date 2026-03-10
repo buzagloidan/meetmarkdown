@@ -31,7 +31,6 @@ export function MermaidToImageClient() {
         theme: "base",
         // htmlLabels: false avoids <foreignObject> so canvas export works without taint
         flowchart: { htmlLabels: false },
-        sequence: { htmlLabels: false },
         themeVariables: {
           background: "transparent",
           mainBkg: "transparent",
