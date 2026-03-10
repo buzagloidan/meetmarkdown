@@ -43,6 +43,26 @@ export const tools: Tool[] = [
     color: "green",
   },
   {
+    slug: "to-pdf",
+    href: "/to-pdf",
+    title: "Markdown to PDF",
+    description:
+      "Render your markdown as a beautifully styled document and save it as a PDF via your browser's print dialog.",
+    icon: FileDown,
+    keywords: ["markdown to pdf", "export markdown as pdf", "print markdown", "markdown pdf converter", "md to pdf"],
+    color: "red",
+  },
+  {
+    slug: "mermaid-editor",
+    href: "/mermaid-editor",
+    title: "Mermaid Live Editor",
+    description:
+      "Write Mermaid diagrams with a live preview. Export as PNG or SVG, copy to clipboard, zoom, choose background, and toggle hand-drawn style.",
+    icon: Workflow,
+    keywords: ["mermaid live editor", "mermaid to png", "mermaid to svg", "mermaid diagram export", "mermaid online"],
+    color: "pink",
+  },
+  {
     slug: "table-formatter",
     href: "/table-formatter",
     title: "Table Formatter",
@@ -61,16 +81,6 @@ export const tools: Tool[] = [
     icon: ArrowLeftRight,
     keywords: ["html to markdown", "convert html to markdown", "html to md", "html markdown converter", "webpage to markdown"],
     color: "teal",
-  },
-  {
-    slug: "to-pdf",
-    href: "/to-pdf",
-    title: "Markdown to PDF",
-    description:
-      "Render your markdown as a beautifully styled document and save it as a PDF via your browser's print dialog.",
-    icon: FileDown,
-    keywords: ["markdown to pdf", "export markdown as pdf", "print markdown", "markdown pdf converter", "md to pdf"],
-    color: "red",
   },
   {
     slug: "word-count",
@@ -101,16 +111,6 @@ export const tools: Tool[] = [
     icon: Link2,
     keywords: ["url to markdown", "web page to markdown", "website to markdown", "fetch url as markdown", "convert webpage to markdown"],
     color: "cyan",
-  },
-  {
-    slug: "mermaid-editor",
-    href: "/mermaid-editor",
-    title: "Mermaid Live Editor",
-    description:
-      "Write Mermaid diagrams with a live preview. Export as PNG or SVG, copy to clipboard, zoom, choose background, and toggle hand-drawn style.",
-    icon: Workflow,
-    keywords: ["mermaid live editor", "mermaid to png", "mermaid to svg", "mermaid diagram export", "mermaid online"],
-    color: "pink",
   },
 ];
 

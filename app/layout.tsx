@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Source_Sans_3, Source_Code_Pro } from "next/font/google";
+import { Source_Sans_3, Source_Code_Pro, Fraunces } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
 import { SiteHeader } from "@/components/layout/SiteHeader";
@@ -19,6 +19,13 @@ const sourceCode = Source_Code_Pro({
   subsets: ["latin"],
   weight: ["400", "500"],
   display: "swap",
+});
+
+const fraunces = Fraunces({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  display: "swap",
+  axes: ["opsz"],
 });
 
 export const metadata: Metadata = {
@@ -44,7 +51,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${sourceSans.variable} ${sourceCode.variable} antialiased`}>
+      <body className={`${sourceSans.variable} ${sourceCode.variable} ${fraunces.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SiteHeader />
           <main className="min-h-[calc(100vh-56px)] pt-6">{children}</main>

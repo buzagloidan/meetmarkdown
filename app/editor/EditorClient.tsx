@@ -44,6 +44,14 @@ console.log(greeting("world"));
 
 export function EditorClient() {
   const [content, setContent] = useState(SAMPLE);
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem("hero-markdown");
+    if (stored) {
+      setContent(stored);
+      sessionStorage.removeItem("hero-markdown");
+    }
+  }, []);
   const contentRef = useRef(content);
   contentRef.current = content;
   const [dlOpen, setDlOpen] = useState(false);
