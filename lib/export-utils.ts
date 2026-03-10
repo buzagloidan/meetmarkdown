@@ -1,7 +1,7 @@
 const PRINT_STYLES = `
   *, *::before, *::after { box-sizing: border-box; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     font-size: 15px; line-height: 1.7; color: #1a1a1a;
     max-width: 780px; margin: 0 auto; padding: 2cm 2.5cm;
   }
