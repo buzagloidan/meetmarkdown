@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s | MeetMarkdown",
   },
   description:
-    "Free online markdown tools: live editor with Mermaid diagrams, formatter, HTML converter, and table formatter. No sign-up required.",
+    "Free online markdown tools: live editor, Mermaid diagram editor, formatter, HTML converter, PDF export, table formatter, diff, word count, and more. No sign-up required.",
   openGraph: {
     type: "website",
     siteName: "MeetMarkdown",

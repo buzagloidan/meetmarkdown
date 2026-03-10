@@ -63,7 +63,16 @@ export function SiteHeader() {
               scrolled ? "rounded-full" : "rounded-lg"
             }`}
           >
-            Editor
+            Markdown Editor
+          </Link>
+
+          <Link
+            href="/mermaid-editor"
+            className={`px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200 ${
+              scrolled ? "rounded-full" : "rounded-lg"
+            }`}
+          >
+            Mermaid Editor
           </Link>
 
           {/* Tools dropdown */}

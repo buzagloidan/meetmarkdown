@@ -21,7 +21,7 @@ export function HeroSection() {
           Markdown Live Editor
         </Link>
         <Link
-          href="/mermaid-to-image"
+          href="/mermaid-editor"
           className="inline-flex items-center justify-center h-9 px-4 rounded-lg border border-border bg-background text-sm font-medium transition-colors hover:bg-muted"
         >
           Mermaid Live Editor

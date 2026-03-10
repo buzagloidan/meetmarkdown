@@ -29,7 +29,7 @@ export const tools: Tool[] = [
     description:
       "Paste your markdown and get it back perfectly formatted — consistent spacing, wrapped prose, and aligned tables.",
     icon: Wand2,
-    keywords: ["markdown formatter", "prettier markdown", "format markdown online"],
+    keywords: ["markdown formatter", "prettier markdown", "format markdown online", "markdown beautifier", "clean up markdown"],
     color: "purple",
   },
   {
@@ -39,7 +39,7 @@ export const tools: Tool[] = [
     description:
       "Convert markdown to clean, semantic HTML. Copy the output or download as an .html file ready to use.",
     icon: FileCode2,
-    keywords: ["markdown to html", "convert markdown", "html export"],
+    keywords: ["markdown to html", "convert markdown to html", "html export", "markdown html converter", "md to html"],
     color: "green",
   },
   {
@@ -49,7 +49,7 @@ export const tools: Tool[] = [
     description:
       "Paste messy markdown tables and get back perfectly aligned GFM-compatible table syntax.",
     icon: Table2,
-    keywords: ["markdown table", "table formatter", "gfm table", "align markdown table"],
+    keywords: ["markdown table formatter", "align markdown table", "gfm table", "markdown table generator", "format markdown table"],
     color: "orange",
   },
   {
@@ -59,7 +59,7 @@ export const tools: Tool[] = [
     description:
       "Paste raw HTML and convert it to clean, readable markdown. Great for migrating content from websites or CMSs.",
     icon: ArrowLeftRight,
-    keywords: ["html to markdown", "convert html", "html converter"],
+    keywords: ["html to markdown", "convert html to markdown", "html to md", "html markdown converter", "webpage to markdown"],
     color: "teal",
   },
   {
@@ -69,7 +69,7 @@ export const tools: Tool[] = [
     description:
       "Render your markdown as a beautifully styled document and save it as a PDF via your browser's print dialog.",
     icon: FileDown,
-    keywords: ["markdown to pdf", "export pdf", "print markdown"],
+    keywords: ["markdown to pdf", "export markdown as pdf", "print markdown", "markdown pdf converter", "md to pdf"],
     color: "red",
   },
   {
@@ -79,7 +79,7 @@ export const tools: Tool[] = [
     description:
       "Paste your markdown and instantly see word count, character count, reading time, heading structure, and more.",
     icon: Hash,
-    keywords: ["markdown word count", "reading time", "text stats", "character count"],
+    keywords: ["markdown word count", "reading time estimator", "text statistics", "character count", "word counter online"],
     color: "indigo",
   },
   {
@@ -89,7 +89,7 @@ export const tools: Tool[] = [
     description:
       "Compare two markdown documents side-by-side. Highlights additions, deletions, and changes line by line.",
     icon: GitCompare,
-    keywords: ["markdown diff", "compare markdown", "text diff", "markdown compare"],
+    keywords: ["markdown diff", "compare markdown files", "text diff online", "markdown comparison tool", "side by side diff"],
     color: "yellow",
   },
   {
@@ -99,17 +99,17 @@ export const tools: Tool[] = [
     description:
       "Enter any public URL and fetch the page content as clean, readable markdown. Perfect for saving articles.",
     icon: Link2,
-    keywords: ["url to markdown", "web to markdown", "webpage to markdown", "fetch url"],
+    keywords: ["url to markdown", "web page to markdown", "website to markdown", "fetch url as markdown", "convert webpage to markdown"],
     color: "cyan",
   },
   {
-    slug: "mermaid-to-image",
-    href: "/mermaid-to-image",
-    title: "Mermaid to Image",
+    slug: "mermaid-editor",
+    href: "/mermaid-editor",
+    title: "Mermaid Live Editor",
     description:
-      "Paste Mermaid diagram code and export it as a PNG or JPG. Right-click the preview to copy or save directly.",
+      "Write Mermaid diagrams with a live preview. Export as PNG or SVG, copy to clipboard, zoom, choose background, and toggle hand-drawn style.",
     icon: Workflow,
-    keywords: ["mermaid to png", "mermaid to image", "mermaid diagram export", "mermaid png download"],
+    keywords: ["mermaid live editor", "mermaid to png", "mermaid to svg", "mermaid diagram export", "mermaid online"],
     color: "pink",
   },
 ];

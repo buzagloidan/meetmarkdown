@@ -64,7 +64,15 @@ export function SiteFooter() {
                 href="/terms"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                Terms of Service
+                Terms & Conditions
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/terms-of-use"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Terms of Use
               </Link>
             </li>
           </ul>

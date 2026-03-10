@@ -136,6 +136,16 @@ const SAMPLES: { label: string; code: string }[] = [
   },
 ];
 
+// ─── Available themes ─────────────────────────────────────────────────────────
+
+const THEMES: { name: string; description: string }[] = [
+  { name: "default", description: "The default theme for all diagrams." },
+  { name: "neutral", description: "Great for black and white documents that will be printed." },
+  { name: "dark", description: "Goes well with dark-colored elements or dark-mode." },
+  { name: "forest", description: "Contains shades of green." },
+  { name: "base", description: "The only theme that can be modified via themeVariables." },
+];
+
 const DEFAULT_CONFIG = `{
   "theme": "base"
 }`;
@@ -145,7 +155,7 @@ type Tab = "code" | "config" | "samples";
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
-export function MermaidToImageClient() {
+export function MermaidEditorClient() {
   const [code, setCode] = useState(SAMPLES[0].code);
   const [configText, setConfigText] = useState(DEFAULT_CONFIG);
   const [activeTab, setActiveTab] = useState<Tab>("code");
@@ -225,6 +235,26 @@ export function MermaidToImageClient() {
   function zoomIn() { setZoom((z) => Math.min(parseFloat((z + 0.25).toFixed(2)), 4)); }
   function zoomOut() { setZoom((z) => Math.max(parseFloat((z - 0.25).toFixed(2)), 0.25)); }
   function zoomReset() { setZoom(1); }
+
+  // ── Theme helpers ──────────────────────────────────────────────────────────
+  function applyTheme(name: string) {
+    try {
+      const parsed = JSON.parse(configText) as Record<string, unknown>;
+      parsed.theme = name;
+      setConfigText(JSON.stringify(parsed, null, 2));
+    } catch {
+      setConfigText(JSON.stringify({ theme: name }, null, 2));
+    }
+  }
+
+  function activeTheme(): string {
+    try {
+      const parsed = JSON.parse(configText) as Record<string, unknown>;
+      return typeof parsed.theme === "string" ? parsed.theme : "";
+    } catch {
+      return "";
+    }
+  }
 
   // ── SVG helpers ───────────────────────────────────────────────────────────
   function getSvgEl(): SVGElement | null {
@@ -350,6 +380,7 @@ export function MermaidToImageClient() {
       : { backgroundColor: "#ffffff" };
 
   const hasDiagram = !!svgHtml && !error;
+  const currentTheme = activeTheme();
 
   return (
     <div className="flex flex-col flex-1 overflow-hidden">
@@ -497,16 +528,53 @@ export function MermaidToImageClient() {
 
             {activeTab === "config" && (
               <div className="flex flex-col flex-1 overflow-hidden">
-                <p className="text-xs text-muted-foreground px-3 pt-2 pb-1">
-                  Mermaid config JSON — merged with defaults. Supports any{" "}
-                  <code className="bg-muted px-1 rounded">MermaidConfig</code> option.
-                </p>
+                {/* JSON editor */}
                 <textarea
                   value={configText}
                   onChange={(e) => setConfigText(e.target.value)}
-                  className="flex-1 resize-none font-mono text-sm p-3 outline-none bg-background focus:ring-1 focus:ring-ring h-48 lg:h-full"
+                  className="flex-1 resize-none font-mono text-sm p-3 outline-none bg-background focus:ring-1 focus:ring-ring h-32 lg:h-48 min-h-[8rem]"
                   spellCheck={false}
                 />
+
+                {/* Theme reference panel */}
+                <div className="border-t bg-muted/20 overflow-y-auto flex-shrink-0">
+                  <div className="px-3 pt-3 pb-1">
+                    <p className="text-xs font-semibold text-foreground mb-0.5">Available Themes</p>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Click a theme to apply it.
+                    </p>
+                  </div>
+                  <div className="px-3 pb-3 space-y-1">
+                    {THEMES.map((t) => {
+                      const isActive = currentTheme === t.name;
+                      return (
+                        <button
+                          key={t.name}
+                          onClick={() => applyTheme(t.name)}
+                          className={`w-full text-left flex items-start gap-2.5 px-2.5 py-2 rounded-lg border transition-colors ${
+                            isActive
+                              ? "bg-primary/10 border-primary/40 text-foreground"
+                              : "border-transparent hover:bg-accent hover:border-border text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          <code className={`text-xs font-mono font-semibold shrink-0 mt-px ${isActive ? "text-primary" : ""}`}>
+                            {t.name}
+                          </code>
+                          <span className="text-xs leading-snug">{t.description}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="px-3 pb-3">
+                    <p className="text-xs text-muted-foreground">
+                      Any{" "}
+                      <code className="bg-muted px-1 rounded text-xs">MermaidConfig</code> key
+                      is supported — e.g.{" "}
+                      <code className="bg-muted px-1 rounded text-xs">&quot;fontSize&quot;</code>,{" "}
+                      <code className="bg-muted px-1 rounded text-xs">&quot;flowchart&quot;</code>.
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
 

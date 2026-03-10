@@ -4,10 +4,17 @@ import { JsonLd } from "@/components/shared/JsonLd";
 import { EditorClient } from "./EditorClient";
 
 export const metadata: Metadata = {
-  title: "Live Editor",
+  title: "Markdown Live Editor",
   description:
-    "Write and preview markdown in real-time. Renders Mermaid diagrams, tables, and syntax-highlighted code inline.",
-  keywords: ["markdown editor", "live preview", "mermaid diagrams", "online editor"],
+    "Free online markdown editor with live preview. Renders Mermaid diagrams, tables, and syntax-highlighted code in real-time. No account needed.",
+  keywords: [
+    "markdown live editor",
+    "online markdown editor",
+    "markdown preview",
+    "markdown editor with mermaid",
+    "real-time markdown",
+    "markdown editor free",
+  ],
   alternates: { canonical: "/editor" },
 };
 
@@ -15,12 +22,12 @@ export default function EditorPage() {
   return (
     <>
       <JsonLd
-        name="Live Editor"
-        description="Write and preview markdown in real-time. Renders Mermaid diagrams, tables, and syntax-highlighted code inline."
+        name="Markdown Live Editor"
+        description="Free online markdown editor with live preview. Renders Mermaid diagrams, tables, and syntax-highlighted code in real-time."
         url="/editor"
       />
       <ToolPageShell
-        title="Live Editor"
+        title="Markdown Live Editor"
         description="Write and preview markdown in real-time. Renders Mermaid diagrams, tables, and syntax-highlighted code inline."
       >
         <EditorClient />
