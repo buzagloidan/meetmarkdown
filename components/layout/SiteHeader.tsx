@@ -21,30 +21,47 @@ function GridIcon() {
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    function onScroll() { setScrolled(window.scrollY > 20); }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
     function handleClick(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     }
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
   return (
-    <header className="sticky top-4 z-50 mx-4 lg:mx-10 xl:mx-20 transition-all duration-300">
-      <div className="bg-background/90 border border-border rounded-full shadow-lg backdrop-blur-lg px-4 py-2 flex items-center justify-between transition-all duration-300">
-
+    <header
+      className={`sticky z-50 transition-all duration-300 ${
+        scrolled ? "top-4 mx-4 lg:mx-10 xl:mx-20" : "top-0 mx-0"
+      }`}
+    >
+      <div
+        className={`transition-all duration-300 bg-background/90 backdrop-blur-lg border-border flex items-center justify-between ${
+          scrolled
+            ? "rounded-full border shadow-lg px-4 py-2"
+            : "border-b px-6 py-3"
+        }`}
+      >
+        {/* Left */}
         <div className="flex items-center gap-1">
-          <Link href="/" className="font-bold text-base tracking-tight mr-2 flex items-center gap-2">
+          <Link href="/" className="font-bold text-base tracking-tight mr-2">
             MeetMarkdown
           </Link>
 
           <Link
             href="/editor"
-            className="px-3 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200"
+            className={`px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200 ${
+              scrolled ? "rounded-full" : "rounded-lg"
+            }`}
           >
             Editor
           </Link>
@@ -53,7 +70,9 @@ export function SiteHeader() {
           <div ref={ref} className="relative">
             <button
               onClick={() => setOpen((o) => !o)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200"
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200 ${
+                scrolled ? "rounded-full" : "rounded-lg"
+              }`}
             >
               <GridIcon />
               Tools
@@ -87,6 +106,7 @@ export function SiteHeader() {
           </div>
         </div>
 
+        {/* Right */}
         <ThemeToggle />
       </div>
     </header>
