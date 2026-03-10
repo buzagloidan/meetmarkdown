@@ -22,7 +22,7 @@ export const tools: Tool[] = [
   {
     slug: "formatter",
     href: "/formatter",
-    title: "Markdown Formatter",
+    title: "Formatter",
     description:
       "Paste your markdown and get it back perfectly formatted — consistent spacing, wrapped prose, and aligned tables.",
     icon: "✨",
@@ -48,6 +48,56 @@ export const tools: Tool[] = [
     icon: "📊",
     keywords: ["markdown table", "table formatter", "gfm table", "align markdown table"],
     color: "orange",
+  },
+  {
+    slug: "html-to-markdown",
+    href: "/html-to-markdown",
+    title: "HTML to Markdown",
+    description:
+      "Paste raw HTML and convert it to clean, readable markdown. Great for migrating content from websites or CMSs.",
+    icon: "🔄",
+    keywords: ["html to markdown", "convert html", "html converter"],
+    color: "teal",
+  },
+  {
+    slug: "to-pdf",
+    href: "/to-pdf",
+    title: "Markdown to PDF",
+    description:
+      "Render your markdown as a beautifully styled document and save it as a PDF via your browser's print dialog.",
+    icon: "📄",
+    keywords: ["markdown to pdf", "export pdf", "print markdown"],
+    color: "red",
+  },
+  {
+    slug: "word-count",
+    href: "/word-count",
+    title: "Word Count & Stats",
+    description:
+      "Paste your markdown and instantly see word count, character count, reading time, heading structure, and more.",
+    icon: "📈",
+    keywords: ["markdown word count", "reading time", "text stats", "character count"],
+    color: "indigo",
+  },
+  {
+    slug: "diff",
+    href: "/diff",
+    title: "Markdown Diff",
+    description:
+      "Compare two markdown documents side-by-side. Highlights additions, deletions, and changes line by line.",
+    icon: "🔍",
+    keywords: ["markdown diff", "compare markdown", "text diff", "markdown compare"],
+    color: "yellow",
+  },
+  {
+    slug: "url-to-markdown",
+    href: "/url-to-markdown",
+    title: "URL to Markdown",
+    description:
+      "Enter any public URL and fetch the page content as clean, readable markdown. Perfect for saving articles.",
+    icon: "🔗",
+    keywords: ["url to markdown", "web to markdown", "webpage to markdown", "fetch url"],
+    color: "cyan",
   },
 ];
 
