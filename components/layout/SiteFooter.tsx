@@ -45,6 +45,14 @@ export function SiteFooter() {
           <ul className="space-y-2">
             <li>
               <Link
+                href="/contact"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Contact
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/faq"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
