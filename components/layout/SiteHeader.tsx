@@ -34,16 +34,17 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="font-bold text-lg tracking-tight">
+    <header className="sticky top-4 z-50 mx-4 lg:mx-10 xl:mx-20 transition-all duration-300">
+      <div className="bg-background/90 border border-border rounded-full shadow-lg backdrop-blur-lg px-4 py-2 flex items-center justify-between transition-all duration-300">
+
+        <div className="flex items-center gap-1">
+          <Link href="/" className="font-bold text-base tracking-tight mr-2 flex items-center gap-2">
             MeetMarkdown
           </Link>
 
           <Link
             href="/editor"
-            className="px-3 py-1.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+            className="px-3 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200"
           >
             Editor
           </Link>
@@ -52,7 +53,7 @@ export function SiteHeader() {
           <div ref={ref} className="relative">
             <button
               onClick={() => setOpen((o) => !o)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200"
             >
               <GridIcon />
               Tools
@@ -62,13 +63,13 @@ export function SiteHeader() {
             </button>
 
             {open && (
-              <div className="absolute left-0 top-full mt-2 w-[520px] rounded-xl border bg-popover shadow-lg p-4 grid grid-cols-3 gap-2">
+              <div className="absolute left-0 top-full mt-3 w-[520px] rounded-2xl border bg-popover shadow-xl p-4 grid grid-cols-3 gap-2">
                 {tools.map((tool) => (
                   <Link
                     key={tool.slug}
                     href={tool.href}
                     onClick={() => setOpen(false)}
-                    className="flex items-start gap-3 p-3 rounded-lg hover:bg-accent transition-colors group"
+                    className="flex items-start gap-3 p-3 rounded-xl hover:bg-accent transition-colors group"
                   >
                     <span className="text-xl mt-0.5 shrink-0">{tool.icon}</span>
                     <div className="min-w-0">

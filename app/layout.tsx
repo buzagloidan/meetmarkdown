@@ -47,7 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${sourceSans.variable} ${sourceCode.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SiteHeader />
-          <main className="min-h-[calc(100vh-56px)]">{children}</main>
+          <main className="min-h-[calc(100vh-56px)] pt-6">{children}</main>
           <SiteFooter />
           <Toaster richColors position="bottom-right" />
         </ThemeProvider>
