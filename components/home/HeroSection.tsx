@@ -18,13 +18,13 @@ export function HeroSection() {
           href="/editor"
           className="inline-flex items-center justify-center h-9 px-4 rounded-lg bg-primary text-primary-foreground text-sm font-medium transition-colors hover:bg-primary/80"
         >
-          Open Live Editor
+          Markdown Live Editor
         </Link>
         <Link
-          href="#tools"
+          href="/mermaid-to-image"
           className="inline-flex items-center justify-center h-9 px-4 rounded-lg border border-border bg-background text-sm font-medium transition-colors hover:bg-muted"
         >
-          Browse All Tools
+          Mermaid Live Editor
         </Link>
       </div>
     </section>
