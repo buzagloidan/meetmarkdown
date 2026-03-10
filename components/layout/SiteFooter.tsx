@@ -19,6 +19,11 @@ export function SiteFooter() {
             Tools
           </h4>
           <ul className="space-y-2">
+            <li>
+              <Link href="/editor" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Live Editor
+              </Link>
+            </li>
             {tools.map((tool) => (
               <li key={tool.slug}>
                 <Link
@@ -40,6 +45,14 @@ export function SiteFooter() {
           <ul className="space-y-2">
             <li>
               <Link
+                href="/faq"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                FAQ & Help
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/privacy"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
@@ -59,8 +72,10 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} MeetMarkdown. All rights reserved.
+        <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-center gap-1 text-xs text-muted-foreground">
+          <span>© {new Date().getFullYear()} MeetMarkdown. All rights reserved.</span>
+          <span className="hidden sm:inline">·</span>
+          <span>Made with <span className="text-red-500">♥</span> for the people of the internet.</span>
         </div>
       </div>
     </footer>

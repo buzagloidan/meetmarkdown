@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { SplitPane } from "@/components/shared/SplitPane";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/CopyButton";
-import { DownloadButton } from "@/components/shared/DownloadButton";
+import { exportAsPdf, exportAsDocx } from "@/lib/export-utils";
+import { ChevronDown, Download } from "lucide-react";
 
 const MarkdownPreview = dynamic(
   () => import("@/components/markdown/MarkdownPreview").then((m) => m.MarkdownPreview),
@@ -43,6 +44,20 @@ console.log(greeting("world"));
 
 export function EditorClient() {
   const [content, setContent] = useState(SAMPLE);
+  const contentRef = useRef(content);
+  contentRef.current = content;
+  const [dlOpen, setDlOpen] = useState(false);
+  const dlRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function onClickOutside(e: MouseEvent) {
+      if (dlRef.current && !dlRef.current.contains(e.target as Node)) {
+        setDlOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, []);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -93,9 +108,51 @@ export function EditorClient() {
             Clear
           </Button>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           <CopyButton text={content} />
-          <DownloadButton content={content} filename="document.md" mimeType="text/markdown" />
+          {/* Download dropdown */}
+          <div className="relative" ref={dlRef}>
+            <button
+              onClick={() => setDlOpen((o) => !o)}
+              className="inline-flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-sm font-medium hover:bg-accent transition-colors"
+            >
+              <Download className="h-4 w-4" />
+              Download
+              <ChevronDown className="h-3.5 w-3.5 opacity-60" />
+            </button>
+            {dlOpen && (
+              <div className="absolute right-0 top-full mt-1 z-50 w-40 rounded-md border bg-popover shadow-md py-1">
+                {/* .md */}
+                <button
+                  className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition-colors"
+                  onClick={() => {
+                    const blob = new Blob([contentRef.current], { type: "text/markdown" });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url; a.download = "document.md"; a.click();
+                    URL.revokeObjectURL(url);
+                    setDlOpen(false);
+                  }}
+                >
+                  Markdown (.md)
+                </button>
+                {/* .pdf */}
+                <button
+                  className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition-colors"
+                  onClick={() => { exportAsPdf(contentRef.current); setDlOpen(false); }}
+                >
+                  PDF (.pdf)
+                </button>
+                {/* .docx */}
+                <button
+                  className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition-colors"
+                  onClick={() => { exportAsDocx(contentRef.current, "document"); setDlOpen(false); }}
+                >
+                  Word (.docx)
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <SplitPane

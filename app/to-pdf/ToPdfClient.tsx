@@ -33,69 +33,127 @@ Write your content here and click **Print / Save as PDF** when ready.
 | Closing | ✅ Done |
 `;
 
+const PRINT_STYLES = `
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 15px; line-height: 1.7; color: #1a1a1a;
+    max-width: 780px; margin: 0 auto; padding: 2cm 2.5cm;
+  }
+  h1,h2,h3,h4,h5,h6 { line-height: 1.3; margin-top: 1.5em; margin-bottom: 0.5em; }
+  h1 { font-size: 2em; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.2em; }
+  p { margin: 0.75em 0; }
+  a { color: #2563eb; }
+  code { background: #f3f4f6; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.875em; font-family: monospace; }
+  pre { background: #f3f4f6; padding: 1em; border-radius: 6px; overflow-x: auto; }
+  pre code { background: none; padding: 0; font-size: 0.85em; }
+  blockquote { border-left: 4px solid #e5e7eb; margin: 0; padding: 0.5em 1em; color: #6b7280; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+  th, td { border: 1px solid #e5e7eb; padding: 0.5em 0.75em; text-align: left; }
+  th { background: #f9fafb; font-weight: 600; }
+  tr:nth-child(even) td { background: #fafafa; }
+  img { max-width: 100%; }
+  @media print { body { padding: 0; } a { color: #1a1a1a; } }
+`;
+
 export function ToPdfClient() {
   const [content, setContent] = useState(SAMPLE);
-  const printRef = useRef<HTMLDivElement>(null);
+  // Ref so handlePrint always reads the latest content regardless of closure timing
+  const contentRef = useRef(content);
+  contentRef.current = content;
 
-  function handlePrint() {
-    window.print();
+  async function handlePrint() {
+    const latest = contentRef.current;
+
+    const [{ markdownToHtml }, mermaidModule] = await Promise.all([
+      import("@/lib/markdown-to-html"),
+      import("mermaid"),
+    ]);
+    const mermaid = mermaidModule.default;
+    mermaid.initialize({ startOnLoad: false, theme: "default" });
+
+    let bodyHtml = await markdownToHtml(latest);
+
+    // Replace mermaid code blocks with rendered SVGs
+    // SVG comes from mermaid.render() — library output, not user-supplied HTML
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(bodyHtml, "text/html");
+    const mermaidBlocks = doc.querySelectorAll("code.language-mermaid");
+    for (const block of mermaidBlocks) {
+      const code = block.textContent ?? "";
+      const id = `mermaid-pdf-${Math.random().toString(36).slice(2)}`;
+      try {
+        const { svg } = await mermaid.render(id, code.trim());
+        const wrapper = doc.createElement("div");
+        wrapper.style.textAlign = "center";
+        wrapper.style.margin = "1.5em 0";
+        wrapper.innerHTML = svg; // mermaid library SVG output — not user input
+        const svgEl = wrapper.querySelector("svg");
+        if (svgEl) {
+          svgEl.style.background = "transparent";
+          const bgRect = svgEl.querySelector(":scope > rect:first-child");
+          if (bgRect) bgRect.setAttribute("fill", "transparent");
+        }
+        block.closest("pre")?.replaceWith(wrapper);
+      } catch {
+        // Leave as code block if render fails
+      }
+    }
+    bodyHtml = doc.body.innerHTML;
+
+    const fullHtml = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Document</title><style>${PRINT_STYLES}</style></head><body>${bodyHtml}</body></html>`;
+
+    // Blob URL approach: opens a proper full document — no blank-window quirks
+    const blob = new Blob([fullHtml], { type: "text/html" });
+    const blobUrl = URL.createObjectURL(blob);
+    const win = window.open(blobUrl, "_blank");
+    if (!win) { URL.revokeObjectURL(blobUrl); return; }
+
+    win.addEventListener("afterprint", () => {
+      win.close();
+      URL.revokeObjectURL(blobUrl);
+    });
+    // Wait for the document to load before triggering print
+    win.addEventListener("load", () => {
+      win.focus();
+      win.print();
+    });
   }
 
   return (
-    <>
-      {/* Print-only styles */}
-      <style>{`
-        @media print {
-          body > * { display: none !important; }
-          #print-area { display: block !important; }
-          #print-area {
-            position: fixed;
-            inset: 0;
-            padding: 2cm;
-            background: white;
-            color: black;
-          }
-        }
-      `}</style>
-
-      {/* Hidden print target */}
-      <div id="print-area" ref={printRef} style={{ display: "none" }}>
-        <MarkdownPreview content={content} />
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-muted-foreground">
+          Write your document, then use <strong>Print / Save as PDF</strong> to export.
+        </p>
+        <Button onClick={handlePrint} className="gap-2" size="lg">
+          <Printer className="h-4 w-4" />
+          Print / Save as PDF
+        </Button>
       </div>
 
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">
-            Write your document, then use <strong>Print / Save as PDF</strong> to export.
-          </p>
-          <Button onClick={handlePrint} className="gap-2" size="lg">
-            <Printer className="h-4 w-4" />
-            Print / Save as PDF
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-[calc(100vh-280px)] min-h-[500px]">
-          <div className="flex flex-col">
-            <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
-              Editor
-            </div>
-            <textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="flex-1 resize-none rounded-lg border bg-background font-mono text-sm p-3 outline-none focus:ring-2 focus:ring-ring"
-              spellCheck={false}
-            />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-[calc(100vh-280px)] min-h-[500px]">
+        <div className="flex flex-col min-h-0">
+          <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+            Editor
           </div>
-          <div className="flex flex-col">
-            <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
-              Preview
-            </div>
-            <div className="flex-1 rounded-lg border overflow-auto bg-background">
-              <MarkdownPreview content={content} />
-            </div>
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="flex-1 min-h-0 resize-none rounded-lg border bg-background font-mono text-sm p-3 outline-none focus:ring-2 focus:ring-ring"
+            spellCheck={false}
+          />
+        </div>
+        <div className="flex flex-col min-h-0">
+          <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+            Preview
+          </div>
+          <div className="flex-1 min-h-0 rounded-lg border overflow-auto bg-background">
+            <MarkdownPreview content={content} />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

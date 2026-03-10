@@ -19,31 +19,15 @@ export function UrlToMarkdownClient() {
     setError("");
     setOutput("");
     try {
-      const res = await fetch(`/api/fetch-url?url=${encodeURIComponent(trimmed)}`);
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Failed to fetch URL");
-
-      const TurndownService = (await import("turndown")).default;
-      const td = new TurndownService({
-        headingStyle: "atx",
-        codeBlockStyle: "fenced",
-        bulletListMarker: "-",
+      // Jina AI Reader: prepend r.jina.ai to any URL → returns clean markdown directly
+      const jinaUrl = `https://r.jina.ai/${trimmed}`;
+      const res = await fetch(jinaUrl, {
+        headers: { Accept: "text/plain" },
       });
-
-      // Remove nav, footer, script, style elements before converting
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(data.html, "text/html");
-      ["nav", "footer", "script", "style", "aside", "header"].forEach((tag) => {
-        doc.querySelectorAll(tag).forEach((el) => el.remove());
-      });
-
-      const main =
-        doc.querySelector("main") ??
-        doc.querySelector("article") ??
-        doc.querySelector('[role="main"]') ??
-        doc.body;
-
-      setOutput(td.turndown(main.innerHTML));
+      if (!res.ok) throw new Error(`Failed to fetch: ${res.status} ${res.statusText}`);
+      const markdown = await res.text();
+      if (!markdown.trim()) throw new Error("No content returned for this URL");
+      setOutput(markdown);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");
     } finally {
@@ -69,8 +53,7 @@ export function UrlToMarkdownClient() {
       </div>
 
       <p className="text-xs text-muted-foreground">
-        Strips navigation, headers, footers, and sidebars — extracts main article content only.
-        Works best on article and blog pages.
+        Extracts clean article content from any public URL. Works best with news articles, blogs, and documentation pages.
       </p>
 
       {error && (

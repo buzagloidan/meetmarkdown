@@ -138,7 +138,18 @@
   @apply font-mono text-sm;
 }
 
-/* Mermaid SVG fills respect dark mode */
-.dark .mermaid svg {
-  background: transparent;
+/* Mermaid — force transparent background at every level */
+[data-slot] svg,
+.mermaid svg {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+svg[id^="mermaid"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+svg[id^="mermaid"] > rect:first-child {
+  fill: transparent !important;
 }

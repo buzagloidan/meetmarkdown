@@ -10,16 +10,6 @@ export interface Tool {
 
 export const tools: Tool[] = [
   {
-    slug: "editor",
-    href: "/editor",
-    title: "Live Editor",
-    description:
-      "Write and preview markdown in real-time. Renders Mermaid diagrams, tables, and syntax-highlighted code inline.",
-    icon: "✏️",
-    keywords: ["markdown editor", "live preview", "mermaid diagrams", "online editor"],
-    color: "blue",
-  },
-  {
     slug: "formatter",
     href: "/formatter",
     title: "Formatter",
@@ -98,6 +88,16 @@ export const tools: Tool[] = [
     icon: "🔗",
     keywords: ["url to markdown", "web to markdown", "webpage to markdown", "fetch url"],
     color: "cyan",
+  },
+  {
+    slug: "mermaid-to-image",
+    href: "/mermaid-to-image",
+    title: "Mermaid to Image",
+    description:
+      "Paste Mermaid diagram code and export it as a PNG or JPG. Right-click the preview to copy or save directly.",
+    icon: "🖼️",
+    keywords: ["mermaid to png", "mermaid to image", "mermaid diagram export", "mermaid png download"],
+    color: "pink",
   },
 ];
 

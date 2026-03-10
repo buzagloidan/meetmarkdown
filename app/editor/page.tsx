@@ -1,23 +1,28 @@
 import type { Metadata } from "next";
 import { ToolPageShell } from "@/components/shared/ToolPageShell";
 import { JsonLd } from "@/components/shared/JsonLd";
-import { getToolBySlug } from "@/lib/tools";
 import { EditorClient } from "./EditorClient";
 
-const tool = getToolBySlug("editor")!;
-
 export const metadata: Metadata = {
-  title: tool.title,
-  description: tool.description,
-  keywords: tool.keywords,
-  alternates: { canonical: tool.href },
+  title: "Live Editor",
+  description:
+    "Write and preview markdown in real-time. Renders Mermaid diagrams, tables, and syntax-highlighted code inline.",
+  keywords: ["markdown editor", "live preview", "mermaid diagrams", "online editor"],
+  alternates: { canonical: "/editor" },
 };
 
 export default function EditorPage() {
   return (
     <>
-      <JsonLd name={tool.title} description={tool.description} url={tool.href} />
-      <ToolPageShell title={tool.title} description={tool.description}>
+      <JsonLd
+        name="Live Editor"
+        description="Write and preview markdown in real-time. Renders Mermaid diagrams, tables, and syntax-highlighted code inline."
+        url="/editor"
+      />
+      <ToolPageShell
+        title="Live Editor"
+        description="Write and preview markdown in real-time. Renders Mermaid diagrams, tables, and syntax-highlighted code inline."
+      >
         <EditorClient />
       </ToolPageShell>
     </>
