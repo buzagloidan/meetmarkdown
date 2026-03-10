@@ -90,7 +90,7 @@ export function SiteHeader() {
                     onClick={() => setOpen(false)}
                     className="flex items-start gap-3 p-3 rounded-xl hover:bg-accent transition-colors group"
                   >
-                    <span className="text-xl mt-0.5 shrink-0">{tool.icon}</span>
+                    <tool.icon className="h-5 w-5 shrink-0 text-primary mt-0.5" />
                     <div className="min-w-0">
                       <p className="text-sm font-medium group-hover:text-foreground leading-tight">
                         {tool.title}

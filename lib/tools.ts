@@ -1,9 +1,22 @@
+import {
+  Wand2,
+  FileCode2,
+  Table2,
+  ArrowLeftRight,
+  FileDown,
+  Hash,
+  GitCompare,
+  Link2,
+  Workflow,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
 export interface Tool {
   slug: string;
   href: string;
   title: string;
   description: string;
-  icon: string;
+  icon: LucideIcon;
   keywords: string[];
   color: string;
 }
@@ -15,7 +28,7 @@ export const tools: Tool[] = [
     title: "Formatter",
     description:
       "Paste your markdown and get it back perfectly formatted — consistent spacing, wrapped prose, and aligned tables.",
-    icon: "✨",
+    icon: Wand2,
     keywords: ["markdown formatter", "prettier markdown", "format markdown online"],
     color: "purple",
   },
@@ -25,7 +38,7 @@ export const tools: Tool[] = [
     title: "Markdown to HTML",
     description:
       "Convert markdown to clean, semantic HTML. Copy the output or download as an .html file ready to use.",
-    icon: "🌐",
+    icon: FileCode2,
     keywords: ["markdown to html", "convert markdown", "html export"],
     color: "green",
   },
@@ -35,7 +48,7 @@ export const tools: Tool[] = [
     title: "Table Formatter",
     description:
       "Paste messy markdown tables and get back perfectly aligned GFM-compatible table syntax.",
-    icon: "📊",
+    icon: Table2,
     keywords: ["markdown table", "table formatter", "gfm table", "align markdown table"],
     color: "orange",
   },
@@ -45,7 +58,7 @@ export const tools: Tool[] = [
     title: "HTML to Markdown",
     description:
       "Paste raw HTML and convert it to clean, readable markdown. Great for migrating content from websites or CMSs.",
-    icon: "🔄",
+    icon: ArrowLeftRight,
     keywords: ["html to markdown", "convert html", "html converter"],
     color: "teal",
   },
@@ -55,7 +68,7 @@ export const tools: Tool[] = [
     title: "Markdown to PDF",
     description:
       "Render your markdown as a beautifully styled document and save it as a PDF via your browser's print dialog.",
-    icon: "📄",
+    icon: FileDown,
     keywords: ["markdown to pdf", "export pdf", "print markdown"],
     color: "red",
   },
@@ -65,7 +78,7 @@ export const tools: Tool[] = [
     title: "Word Count & Stats",
     description:
       "Paste your markdown and instantly see word count, character count, reading time, heading structure, and more.",
-    icon: "📈",
+    icon: Hash,
     keywords: ["markdown word count", "reading time", "text stats", "character count"],
     color: "indigo",
   },
@@ -75,7 +88,7 @@ export const tools: Tool[] = [
     title: "Markdown Diff",
     description:
       "Compare two markdown documents side-by-side. Highlights additions, deletions, and changes line by line.",
-    icon: "🔍",
+    icon: GitCompare,
     keywords: ["markdown diff", "compare markdown", "text diff", "markdown compare"],
     color: "yellow",
   },
@@ -85,7 +98,7 @@ export const tools: Tool[] = [
     title: "URL to Markdown",
     description:
       "Enter any public URL and fetch the page content as clean, readable markdown. Perfect for saving articles.",
-    icon: "🔗",
+    icon: Link2,
     keywords: ["url to markdown", "web to markdown", "webpage to markdown", "fetch url"],
     color: "cyan",
   },
@@ -95,7 +108,7 @@ export const tools: Tool[] = [
     title: "Mermaid to Image",
     description:
       "Paste Mermaid diagram code and export it as a PNG or JPG. Right-click the preview to copy or save directly.",
-    icon: "🖼️",
+    icon: Workflow,
     keywords: ["mermaid to png", "mermaid to image", "mermaid diagram export", "mermaid png download"],
     color: "pink",
   },

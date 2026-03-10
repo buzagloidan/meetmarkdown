@@ -9,7 +9,7 @@ export function ToolCard({ tool }: { tool: Tool }) {
       className="group flex flex-col gap-3 p-6 rounded-xl border bg-card hover:bg-accent/30 hover:border-primary/30 transition-all"
     >
       <div className="flex items-start justify-between">
-        <span className="text-3xl">{tool.icon}</span>
+        <tool.icon className="h-7 w-7 text-primary" />
         <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
       </div>
       <div>

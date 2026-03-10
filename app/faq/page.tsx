@@ -206,7 +206,7 @@ export default function FaqPage() {
               href={tool.href}
               className="flex items-center gap-2 px-3 py-2 rounded-lg border hover:bg-accent text-sm transition-colors"
             >
-              <span>{tool.icon}</span>
+              <tool.icon className="h-4 w-4 text-primary shrink-0" />
               <span>{tool.title}</span>
             </Link>
           ))}
