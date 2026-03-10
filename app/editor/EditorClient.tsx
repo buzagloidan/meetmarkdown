@@ -48,6 +48,8 @@ export function EditorClient() {
   contentRef.current = content;
   const [dlOpen, setDlOpen] = useState(false);
   const dlRef = useRef<HTMLDivElement>(null);
+  // Mobile tab: "editor" | "preview"
+  const [mobileTab, setMobileTab] = useState<"editor" | "preview">("editor");
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
@@ -89,86 +91,124 @@ export function EditorClient() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [content]);
 
-  return (
-    <div className="flex flex-col h-[calc(100vh-160px)] min-h-[500px]">
-      <div className="flex items-center justify-between px-4 py-2 border-b gap-2 flex-wrap">
-        <div className="flex gap-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => {
-              import("@/lib/prettier-format").then(({ formatMarkdown }) => {
-                formatMarkdown(content).then(setContent).catch(console.error);
-              });
-            }}
+  const toolbar = (
+    <div className="flex items-center justify-between px-4 py-2 border-b gap-2 flex-wrap">
+      <div className="flex gap-2 items-center">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => {
+            import("@/lib/prettier-format").then(({ formatMarkdown }) => {
+              formatMarkdown(content).then(setContent).catch(console.error);
+            });
+          }}
+        >
+          Format <span className="hidden sm:inline">(⌘⇧F)</span>
+        </Button>
+        <Button variant="ghost" size="sm" onClick={() => setContent("")}>
+          Clear
+        </Button>
+        {/* Mobile tabs */}
+        <div className="flex lg:hidden rounded-md border overflow-hidden ml-2">
+          <button
+            onClick={() => setMobileTab("editor")}
+            className={`px-3 py-1 text-sm transition-colors ${mobileTab === "editor" ? "bg-primary text-primary-foreground" : "hover:bg-accent"}`}
           >
-            Format (⌘⇧F)
-          </Button>
-          <Button variant="ghost" size="sm" onClick={() => setContent("")}>
-            Clear
-          </Button>
-        </div>
-        <div className="flex gap-2 items-center">
-          <CopyButton text={content} />
-          {/* Download dropdown */}
-          <div className="relative" ref={dlRef}>
-            <button
-              onClick={() => setDlOpen((o) => !o)}
-              className="inline-flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-sm font-medium hover:bg-accent transition-colors"
-            >
-              <Download className="h-4 w-4" />
-              Download
-              <ChevronDown className="h-3.5 w-3.5 opacity-60" />
-            </button>
-            {dlOpen && (
-              <div className="absolute right-0 top-full mt-1 z-50 w-40 rounded-md border bg-popover shadow-md py-1">
-                {/* .md */}
-                <button
-                  className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition-colors"
-                  onClick={() => {
-                    const blob = new Blob([contentRef.current], { type: "text/markdown" });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    a.href = url; a.download = "document.md"; a.click();
-                    URL.revokeObjectURL(url);
-                    setDlOpen(false);
-                  }}
-                >
-                  Markdown (.md)
-                </button>
-                {/* .pdf */}
-                <button
-                  className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition-colors"
-                  onClick={() => { exportAsPdf(contentRef.current); setDlOpen(false); }}
-                >
-                  PDF (.pdf)
-                </button>
-                {/* .docx */}
-                <button
-                  className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition-colors"
-                  onClick={() => { exportAsDocx(contentRef.current, "document"); setDlOpen(false); }}
-                >
-                  Word (.docx)
-                </button>
-              </div>
-            )}
-          </div>
+            Edit
+          </button>
+          <button
+            onClick={() => setMobileTab("preview")}
+            className={`px-3 py-1 text-sm transition-colors ${mobileTab === "preview" ? "bg-primary text-primary-foreground" : "hover:bg-accent"}`}
+          >
+            Preview
+          </button>
         </div>
       </div>
-      <SplitPane
-        className="flex-1"
-        left={
+      <div className="flex gap-2 items-center">
+        <CopyButton text={content} />
+        {/* Download dropdown */}
+        <div className="relative" ref={dlRef}>
+          <button
+            onClick={() => setDlOpen((o) => !o)}
+            className="inline-flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-sm font-medium hover:bg-accent transition-colors"
+          >
+            <Download className="h-4 w-4" />
+            Download
+            <ChevronDown className="h-3.5 w-3.5 opacity-60" />
+          </button>
+          {dlOpen && (
+            <div className="absolute right-0 top-full mt-1 z-50 w-40 rounded-md border bg-popover shadow-md py-1">
+              <button
+                className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition-colors"
+                onClick={() => {
+                  const blob = new Blob([contentRef.current], { type: "text/markdown" });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url; a.download = "document.md"; a.click();
+                  URL.revokeObjectURL(url);
+                  setDlOpen(false);
+                }}
+              >
+                Markdown (.md)
+              </button>
+              <button
+                className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition-colors"
+                onClick={() => { exportAsPdf(contentRef.current); setDlOpen(false); }}
+              >
+                PDF (.pdf)
+              </button>
+              <button
+                className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition-colors"
+                onClick={() => { exportAsDocx(contentRef.current, "document"); setDlOpen(false); }}
+              >
+                Word (.docx)
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="flex flex-col h-[calc(100vh-160px)] min-h-[500px]">
+      {toolbar}
+
+      {/* Desktop: split pane */}
+      <div className="hidden lg:flex flex-1 min-h-0">
+        <SplitPane
+          className="flex-1"
+          left={
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="w-full h-full resize-none bg-background font-mono text-sm p-4 outline-none border-r"
+              placeholder="Write markdown here..."
+              spellCheck={false}
+            />
+          }
+          right={<MarkdownPreview content={content} />}
+        />
+      </div>
+
+      {/* Mobile: tab layout */}
+      <div className="flex lg:hidden flex-1 min-h-0">
+        {mobileTab === "editor" ? (
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="w-full h-full resize-none bg-background font-mono text-sm p-4 outline-none border-r"
+            className="w-full h-full resize-none bg-background font-mono text-sm p-4 outline-none"
             placeholder="Write markdown here..."
             spellCheck={false}
           />
-        }
-        right={<MarkdownPreview content={content} />}
-      />
+        ) : (
+          <div className="w-full h-full overflow-auto">
+            <MarkdownPreview content={content} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

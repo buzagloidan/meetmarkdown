@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Download, ImageDown } from "lucide-react";
+import { toast } from "sonner";
 
 const SAMPLE = `flowchart TD
   A[Start] --> B{Is it Mermaid?}
@@ -120,7 +121,7 @@ export function MermaidToImageClient() {
       a.download = transparent ? "diagram-transparent.png" : "diagram.png";
       a.click();
     } catch (e) {
-      alert(e instanceof Error ? e.message : "Export failed");
+      toast.error(e instanceof Error ? e.message : "Export failed");
     }
   }
 
@@ -133,7 +134,7 @@ export function MermaidToImageClient() {
       a.download = "diagram.jpg";
       a.click();
     } catch (e) {
-      alert(e instanceof Error ? e.message : "Export failed");
+      toast.error(e instanceof Error ? e.message : "Export failed");
     }
   }
 

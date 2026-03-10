@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Source_Sans_3, Source_Code_Pro } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { Toaster } from "sonner";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import "./globals.css";
@@ -34,6 +35,10 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   twitter: { card: "summary_large_image" },
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -44,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SiteHeader />
           <main className="min-h-[calc(100vh-56px)]">{children}</main>
           <SiteFooter />
+          <Toaster richColors position="bottom-right" />
         </ThemeProvider>
       </body>
     </html>
