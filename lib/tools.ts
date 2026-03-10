@@ -8,6 +8,7 @@ import {
   GitCompare,
   Link2,
   Workflow,
+  Presentation,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -111,6 +112,16 @@ export const tools: Tool[] = [
     icon: Link2,
     keywords: ["url to markdown", "web page to markdown", "website to markdown", "fetch url as markdown", "convert webpage to markdown"],
     color: "cyan",
+  },
+  {
+    slug: "slide-editor",
+    href: "/slide-editor",
+    title: "Marp Slide Editor",
+    description:
+      "Write Marp markdown and get a live slide preview. Navigate slides, choose themes, and export as a self-contained HTML presentation.",
+    icon: Presentation,
+    keywords: ["marp editor", "markdown slides", "markdown presentation", "marp online", "markdown to slides", "presentation maker"],
+    color: "violet",
   },
 ];
 
