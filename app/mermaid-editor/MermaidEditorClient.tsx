@@ -163,6 +163,9 @@ export function MermaidEditorClient() {
   const [error, setError] = useState("");
   const [rendering, setRendering] = useState(false);
   const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragOrigin = useRef({ mx: 0, my: 0, px: 0, py: 0 });
   const [bg, setBg] = useState<BgOption>("white");
   const [customBg, setCustomBg] = useState("#ffffff");
   const [handDrawn, setHandDrawn] = useState(false);
@@ -235,7 +238,7 @@ export function MermaidEditorClient() {
   // ── Zoom helpers ──────────────────────────────────────────────────────────
   function zoomIn() { setZoom((z) => Math.min(parseFloat((z + 0.25).toFixed(2)), 4)); }
   function zoomOut() { setZoom((z) => Math.max(parseFloat((z - 0.25).toFixed(2)), 0.25)); }
-  function zoomReset() { setZoom(1); }
+  function zoomReset() { setZoom(1); setPan({ x: 0, y: 0 }); }
 
   // Mouse-wheel zoom on the preview panel
   useEffect(() => {
@@ -643,11 +646,33 @@ export function MermaidEditorClient() {
             </div>
           )}
 
-          {/* Zoomable SVG */}
+          {/* Zoomable + pannable SVG */}
           {svgHtml && !error && (
-            <div className="w-full h-full overflow-auto flex items-center justify-center">
+            <div
+              className="w-full h-full overflow-hidden select-none"
+              style={{ cursor: isDragging ? "grabbing" : "grab" }}
+              onMouseDown={(e) => {
+                if (e.button !== 0) return;
+                setIsDragging(true);
+                dragOrigin.current = { mx: e.clientX, my: e.clientY, px: pan.x, py: pan.y };
+              }}
+              onMouseMove={(e) => {
+                if (!isDragging) return;
+                setPan({
+                  x: dragOrigin.current.px + e.clientX - dragOrigin.current.mx,
+                  y: dragOrigin.current.py + e.clientY - dragOrigin.current.my,
+                });
+              }}
+              onMouseUp={() => setIsDragging(false)}
+              onMouseLeave={() => setIsDragging(false)}
+            >
               <div
-                style={{ transform: `scale(${zoom})`, transformOrigin: "center center", transition: "transform 0.15s ease" }}
+                className="w-full h-full flex items-center justify-center"
+                style={{
+                  transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+                  transformOrigin: "center center",
+                  transition: isDragging ? "none" : "transform 0.15s ease",
+                }}
                 dangerouslySetInnerHTML={{ __html: svgHtml }}
               />
             </div>
