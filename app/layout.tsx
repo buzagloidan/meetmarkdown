@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Source_Sans_3, Source_Code_Pro, Fraunces } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
@@ -56,6 +57,18 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-ZKD3TWEDVK" strategy="afterInteractive" />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('consent', 'default', {
+            'analytics_storage': 'granted'
+          });
+          gtag('config', 'G-ZKD3TWEDVK');
+        `}
+      </Script>
       <body className={`${sourceSans.variable} ${sourceCode.variable} ${fraunces.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SiteHeader />
