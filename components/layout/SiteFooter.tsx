@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { tools } from "@/lib/tools";
 
@@ -7,7 +8,10 @@ export function SiteFooter() {
       <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-3 gap-10">
         {/* Brand */}
         <div className="space-y-3">
-          <h3 className="font-bold text-base">MeetMarkdown</h3>
+          <div className="flex items-center gap-2">
+            <Image src="/logo.png" alt="MeetMarkdown" width={32} height={32} className="rounded" />
+            <h3 className="font-bold text-base">MeetMarkdown</h3>
+          </div>
           <p className="text-sm text-muted-foreground leading-relaxed">
             Your one-stop destination for free, instant markdown tools — no sign-up, no hassle.
           </p>

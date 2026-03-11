@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { tools } from "@/lib/tools";
@@ -53,7 +54,8 @@ export function SiteHeader() {
       >
         {/* Left */}
         <div className="flex items-center gap-1">
-          <Link href="/" className="font-bold text-base tracking-tight mr-2">
+          <Link href="/" className="flex items-center gap-2 font-bold text-base tracking-tight mr-2">
+            <Image src="/logo.png" alt="MeetMarkdown" width={28} height={28} className="rounded" />
             MeetMarkdown
           </Link>
 
