@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { tools } from "@/lib/tools";
 import { ThemeToggle } from "./ThemeToggle";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 
 function GridIcon() {
   return (
@@ -21,9 +21,11 @@ function GridIcon() {
 }
 
 export function SiteHeader() {
-  const [open, setOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const toolsRef = useRef<HTMLDivElement>(null);
+  const mobileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function onScroll() { setScrolled(window.scrollY > 20); }
@@ -33,11 +35,15 @@ export function SiteHeader() {
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (toolsRef.current && !toolsRef.current.contains(e.target as Node)) setToolsOpen(false);
+      if (mobileRef.current && !mobileRef.current.contains(e.target as Node)) setMobileOpen(false);
     }
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
+
+  // Close mobile menu on route change (link click)
+  function closeMobile() { setMobileOpen(false); }
 
   return (
     <header
@@ -49,19 +55,20 @@ export function SiteHeader() {
         className={`transition-all duration-300 bg-background/90 backdrop-blur-lg border-border flex items-center justify-between ${
           scrolled
             ? "rounded-full border shadow-lg px-4 py-2"
-            : "border-b px-6 py-3"
+            : "border-b px-4 sm:px-6 py-3"
         }`}
       >
-        {/* Left */}
+        {/* Left: Logo + desktop nav */}
         <div className="flex items-center gap-1">
           <Link href="/" className="flex items-center gap-2 font-bold text-base tracking-tight mr-2">
             <Image src="/logo.png" alt="MeetMarkdown" width={28} height={28} className="rounded" />
-            MeetMarkdown
+            <span className="hidden sm:inline">MeetMarkdown</span>
           </Link>
 
+          {/* Desktop nav links */}
           <Link
             href="/editor"
-            className={`px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200 ${
+            className={`hidden md:inline-flex px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200 ${
               scrolled ? "rounded-full" : "rounded-lg"
             }`}
           >
@@ -70,17 +77,17 @@ export function SiteHeader() {
 
           <Link
             href="/mermaid-editor"
-            className={`px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200 ${
+            className={`hidden md:inline-flex px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200 ${
               scrolled ? "rounded-full" : "rounded-lg"
             }`}
           >
             Mermaid Editor
           </Link>
 
-          {/* Tools dropdown */}
-          <div ref={ref} className="relative">
+          {/* Tools dropdown — desktop only */}
+          <div ref={toolsRef} className="relative hidden md:block">
             <button
-              onClick={() => setOpen((o) => !o)}
+              onClick={() => setToolsOpen((o) => !o)}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200 ${
                 scrolled ? "rounded-full" : "rounded-lg"
               }`}
@@ -88,17 +95,17 @@ export function SiteHeader() {
               <GridIcon />
               Tools
               <ChevronDown
-                className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+                className={`h-3.5 w-3.5 transition-transform duration-200 ${toolsOpen ? "rotate-180" : ""}`}
               />
             </button>
 
-            {open && (
+            {toolsOpen && (
               <div className="absolute left-0 top-full mt-3 w-[520px] rounded-2xl border bg-popover shadow-xl p-4 grid grid-cols-3 gap-2">
                 {tools.map((tool) => (
                   <Link
                     key={tool.slug}
                     href={tool.href}
-                    onClick={() => setOpen(false)}
+                    onClick={() => setToolsOpen(false)}
                     className="flex items-start gap-3 p-3 rounded-xl hover:bg-accent transition-colors group"
                   >
                     <tool.icon className="h-5 w-5 shrink-0 text-primary mt-0.5" />
@@ -117,8 +124,57 @@ export function SiteHeader() {
           </div>
         </div>
 
-        {/* Right */}
-        <ThemeToggle />
+        {/* Right: theme toggle + mobile hamburger */}
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+
+          {/* Mobile hamburger */}
+          <div ref={mobileRef} className="relative md:hidden">
+            <button
+              onClick={() => setMobileOpen((o) => !o)}
+              className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-full transition-colors"
+              aria-label="Open menu"
+            >
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+
+            {mobileOpen && (
+              <div className="absolute right-0 top-full mt-3 w-[280px] rounded-2xl border bg-popover shadow-xl p-3 space-y-1">
+                <Link
+                  href="/editor"
+                  onClick={closeMobile}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-accent transition-colors text-sm font-medium"
+                >
+                  Markdown Editor
+                </Link>
+                <Link
+                  href="/mermaid-editor"
+                  onClick={closeMobile}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-accent transition-colors text-sm font-medium"
+                >
+                  Mermaid Editor
+                </Link>
+
+                <div className="border-t my-2" />
+                <p className="px-3 py-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Tools</p>
+
+                {tools.map((tool) => (
+                  <Link
+                    key={tool.slug}
+                    href={tool.href}
+                    onClick={closeMobile}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-accent transition-colors group"
+                  >
+                    <tool.icon className="h-5 w-5 shrink-0 text-primary" />
+                    <span className="text-sm font-medium group-hover:text-foreground">
+                      {tool.title}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </header>
   );
