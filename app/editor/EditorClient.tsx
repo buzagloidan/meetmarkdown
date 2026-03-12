@@ -5,6 +5,8 @@ import dynamic from "next/dynamic";
 import { SplitPane } from "@/components/shared/SplitPane";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/CopyButton";
+import { ShareButton } from "@/components/shared/ShareButton";
+import { useSharedContent } from "@/lib/use-shared-content";
 import { exportAsPdf, exportAsDocx } from "@/lib/export-utils";
 import { ChevronDown, Download } from "lucide-react";
 
@@ -44,6 +46,8 @@ console.log(greeting("world"));
 
 export function EditorClient() {
   const [content, setContent] = useState(SAMPLE);
+
+  useSharedContent(useCallback((v: string) => setContent(v), []));
 
   useEffect(() => {
     const stored = sessionStorage.getItem("hero-markdown");
@@ -133,6 +137,7 @@ export function EditorClient() {
         </div>
       </div>
       <div className="flex gap-2 items-center">
+        <ShareButton path="/editor" content={content} />
         <CopyButton text={content} />
         {/* Download dropdown */}
         <div className="relative" ref={dlRef}>

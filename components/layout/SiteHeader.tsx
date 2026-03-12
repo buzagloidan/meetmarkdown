@@ -5,7 +5,14 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { tools } from "@/lib/tools";
 import { ThemeToggle } from "./ThemeToggle";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X, BookOpen } from "lucide-react";
+
+const guides = [
+  { href: "/cheatsheet", title: "Markdown Cheat Sheet", description: "Quick reference for all markdown syntax" },
+  { href: "/guide/mermaid", title: "Mermaid Diagram Guide", description: "Complete guide to Mermaid diagram syntax" },
+  { href: "/guide/tables", title: "Markdown Tables Guide", description: "How to create and format tables" },
+  { href: "/templates/mermaid", title: "Mermaid Templates", description: "Ready-to-use diagram templates" },
+];
 
 function GridIcon() {
   return (
@@ -22,9 +29,11 @@ function GridIcon() {
 
 export function SiteHeader() {
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [guidesOpen, setGuidesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const toolsRef = useRef<HTMLDivElement>(null);
+  const guidesRef = useRef<HTMLDivElement>(null);
   const mobileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,6 +45,7 @@ export function SiteHeader() {
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (toolsRef.current && !toolsRef.current.contains(e.target as Node)) setToolsOpen(false);
+      if (guidesRef.current && !guidesRef.current.contains(e.target as Node)) setGuidesOpen(false);
       if (mobileRef.current && !mobileRef.current.contains(e.target as Node)) setMobileOpen(false);
     }
     document.addEventListener("mousedown", handleClick);
@@ -131,6 +141,42 @@ export function SiteHeader() {
               </div>
             )}
           </div>
+
+          {/* Guides dropdown — desktop only */}
+          <div ref={guidesRef} className="relative hidden md:block">
+            <button
+              onClick={() => setGuidesOpen((o) => !o)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200 ${
+                scrolled ? "rounded-full" : "rounded-lg"
+              }`}
+            >
+              <BookOpen className="h-4 w-4" />
+              Guides
+              <ChevronDown
+                className={`h-3.5 w-3.5 transition-transform duration-200 ${guidesOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+
+            {guidesOpen && (
+              <div className="absolute left-0 top-full mt-3 w-[320px] rounded-2xl border bg-popover shadow-xl p-3 space-y-1">
+                {guides.map((guide) => (
+                  <Link
+                    key={guide.href}
+                    href={guide.href}
+                    onClick={() => setGuidesOpen(false)}
+                    className="flex flex-col gap-0.5 p-3 rounded-xl hover:bg-accent transition-colors group"
+                  >
+                    <p className="text-sm font-medium group-hover:text-foreground leading-tight">
+                      {guide.title}
+                    </p>
+                    <p className="text-xs text-muted-foreground leading-snug">
+                      {guide.description}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Right: theme toggle + mobile hamburger */}
@@ -171,6 +217,20 @@ export function SiteHeader() {
                 >
                   Developers
                 </Link>
+
+                <div className="border-t my-2" />
+                <p className="px-3 py-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Guides</p>
+
+                {guides.map((guide) => (
+                  <Link
+                    key={guide.href}
+                    href={guide.href}
+                    onClick={closeMobile}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-accent transition-colors text-sm font-medium"
+                  >
+                    {guide.title}
+                  </Link>
+                ))}
 
                 <div className="border-t my-2" />
                 <p className="px-3 py-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Tools</p>

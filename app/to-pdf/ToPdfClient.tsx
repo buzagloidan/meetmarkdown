@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
+import { ShareButton } from "@/components/shared/ShareButton";
+import { useSharedContent } from "@/lib/use-shared-content";
 import { Printer } from "lucide-react";
 
 const MarkdownPreview = dynamic(
@@ -59,6 +61,7 @@ const PRINT_STYLES = `
 
 export function ToPdfClient() {
   const [content, setContent] = useState(SAMPLE);
+  useSharedContent(useCallback((v: string) => setContent(v), []));
   // Ref so handlePrint always reads the latest content regardless of closure timing
   const contentRef = useRef(content);
   contentRef.current = content;
@@ -127,10 +130,13 @@ export function ToPdfClient() {
         <p className="text-sm text-muted-foreground">
           Write your document, then use <strong>Print / Save as PDF</strong> to export.
         </p>
-        <Button onClick={handlePrint} className="gap-2" size="lg">
-          <Printer className="h-4 w-4" />
-          Print / Save as PDF
-        </Button>
+        <div className="flex gap-2">
+          <ShareButton path="/to-pdf" content={content} />
+          <Button onClick={handlePrint} className="gap-2" size="lg">
+            <Printer className="h-4 w-4" />
+            Print / Save as PDF
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-[calc(100vh-280px)] min-h-[500px]">

@@ -17,9 +17,9 @@ export default function PrivacyPage() {
         <section>
           <h2>The short version</h2>
           <p>
-            MeetMarkdown is a collection of browser-based tools. Your markdown never leaves your
-            device — everything is processed locally in your browser. We don&apos;t have a backend
-            that receives or stores your content.
+            MeetMarkdown is a collection of browser-based tools. All processing happens locally in
+            your browser — we do not have a backend that receives or stores your content. We never
+            see, log, or analyse anything you type into our tools.
           </p>
         </section>
 
@@ -72,6 +72,37 @@ export default function PrivacyPage() {
             Any markdown you write or paste into our tools is processed entirely within your
             browser using JavaScript. It is never uploaded, stored, or analysed by us. You
             retain full ownership of your content.
+          </p>
+        </section>
+
+        <section>
+          <h2>Shareable links</h2>
+          <p>
+            Some tools include a <strong>Share</strong> button that generates a URL containing
+            your content encoded directly in the link itself (in the URL fragment / hash). When
+            you create a shareable link:
+          </p>
+          <ul>
+            <li>
+              <strong>No content is sent to or stored on our servers.</strong> The encoded content
+              lives entirely within the URL. URL fragments (the part after <code>#</code>) are
+              never transmitted to web servers by browsers — this is defined by the HTTP
+              specification.
+            </li>
+            <li>
+              <strong>We have no record of shared links.</strong> Because the content is embedded
+              in the URL itself, we cannot see, moderate, revoke, or track shared links. We do not
+              maintain any database of shared content.
+            </li>
+            <li>
+              <strong>You control distribution.</strong> A shareable link only reaches people you
+              send it to. Treat it like any other content you share — once you send a link to
+              someone, they can forward it to others.
+            </li>
+          </ul>
+          <p>
+            If you paste sensitive, confidential, or personal information into a tool and generate
+            a shareable link, anyone who receives that link can view the content. Share responsibly.
           </p>
         </section>
 

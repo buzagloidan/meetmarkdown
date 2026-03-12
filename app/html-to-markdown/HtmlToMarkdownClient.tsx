@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/CopyButton";
+import { ShareButton } from "@/components/shared/ShareButton";
 import { DownloadButton } from "@/components/shared/DownloadButton";
+import { useSharedContent } from "@/lib/use-shared-content";
 import { Loader2, RefreshCw } from "lucide-react";
 
 const SAMPLE = `<h1>Hello World</h1>
@@ -25,6 +27,8 @@ export function HtmlToMarkdownClient() {
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useSharedContent(useCallback((v: string) => setInput(v), []));
 
   async function convert() {
     if (!input.trim()) return;
@@ -57,6 +61,7 @@ export function HtmlToMarkdownClient() {
           <div className="flex items-center justify-between">
             <label className="text-sm font-medium">HTML input</label>
             <div className="flex gap-2">
+              <ShareButton path="/html-to-markdown" content={input} />
               <Button variant="ghost" size="sm" onClick={() => { setInput(SAMPLE); setOutput(""); }}>
                 Load example
               </Button>

@@ -1,9 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { Share2, Check } from "lucide-react";
 import { type Change } from "diff";
 import { diffMarkdown } from "@/lib/diff";
 import { cn } from "@/lib/cn";
+import { buildShareUrl, decodeShareContent } from "@/lib/share";
+import { toast } from "sonner";
 
 const SAMPLE_A = `# Project README
 
@@ -42,6 +45,35 @@ Pull requests are welcome!
 export function DiffClient() {
   const [left, setLeft] = useState("");
   const [right, setRight] = useState("");
+  const [shareCopied, setShareCopied] = useState(false);
+
+  // Load shared content from URL hash (encodes both sides as JSON)
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+    const decoded = decodeShareContent(hash);
+    if (decoded) {
+      try {
+        const { left: l, right: r } = JSON.parse(decoded);
+        if (typeof l === "string") setLeft(l);
+        if (typeof r === "string") setRight(r);
+      } catch { /* ignore */ }
+      history.replaceState(null, "", window.location.pathname);
+    }
+  }, []);
+
+  async function shareDiff() {
+    if (!left && !right) { toast.error("Nothing to share"); return; }
+    const payload = JSON.stringify({ left, right });
+    const url = buildShareUrl("/diff", payload);
+    if (url.length > 100_000) { toast.error("Content too large to share via URL"); return; }
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareCopied(true);
+      toast.success("Share link copied to clipboard");
+      setTimeout(() => setShareCopied(false), 2000);
+    } catch { toast.error("Could not copy to clipboard"); }
+  }
 
   const { changes, added, removed } = useMemo(() => {
     if (!left && !right) return { changes: [] as Change[], added: 0, removed: 0 };
@@ -50,6 +82,16 @@ export function DiffClient() {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-end">
+        <button
+          onClick={shareDiff}
+          disabled={!left && !right}
+          className="flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-sm font-medium hover:bg-accent transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          {shareCopied ? <Check className="h-3.5 w-3.5" /> : <Share2 className="h-3.5 w-3.5" />}
+          {shareCopied ? "Copied!" : "Share"}
+        </button>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="space-y-2">
           <div className="flex items-center justify-between">

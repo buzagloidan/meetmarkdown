@@ -9,8 +9,12 @@ import {
   RotateCcw,
   ChevronDown,
   Pencil,
+  Share2,
+  Check,
+  Code2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { buildShareUrl, decodeShareContent } from "@/lib/share";
 
 // ─── Sample diagrams ─────────────────────────────────────────────────────────
 
@@ -177,9 +181,23 @@ export function MermaidEditorClient() {
   const handDrawnRef = useRef(handDrawn);
   handDrawnRef.current = handDrawn;
 
+  const [shareCopied, setShareCopied] = useState(false);
+  const [embedCopied, setEmbedCopied] = useState(false);
+
   const svgContainerRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Load shared content from URL hash on mount
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+    const decoded = decodeShareContent(hash);
+    if (decoded) {
+      setCode(decoded);
+      history.replaceState(null, "", window.location.pathname);
+    }
+  }, []);
 
   const renderDiagram = useCallback(async (source: string, cfgText: string, sketch: boolean) => {
     if (!source.trim()) { setSvgHtml(""); setError(""); return; }
@@ -396,6 +414,34 @@ export function MermaidEditorClient() {
       ? { backgroundColor: customBg }
       : { backgroundColor: "#ffffff" };
 
+  async function shareLink() {
+    if (!code.trim()) { toast.error("Nothing to share"); return; }
+    const url = buildShareUrl("/mermaid-editor", code);
+    if (url.length > 100_000) { toast.error("Diagram is too large to share via URL"); return; }
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareCopied(true);
+      toast.success("Share link copied to clipboard");
+      setTimeout(() => setShareCopied(false), 2000);
+    } catch {
+      toast.error("Could not copy to clipboard");
+    }
+  }
+
+  async function copyEmbed() {
+    if (!code.trim()) { toast.error("Nothing to embed"); return; }
+    const url = buildShareUrl("/mermaid-editor", code);
+    const snippet = `<iframe src="${url}" width="100%" height="500" style="border:1px solid #e5e7eb;border-radius:8px;" title="Mermaid Diagram" loading="lazy"></iframe>`;
+    try {
+      await navigator.clipboard.writeText(snippet);
+      setEmbedCopied(true);
+      toast.success("Embed code copied to clipboard");
+      setTimeout(() => setEmbedCopied(false), 2000);
+    } catch {
+      toast.error("Could not copy to clipboard");
+    }
+  }
+
   const hasDiagram = !!svgHtml && !error;
   const currentTheme = activeTheme();
 
@@ -463,6 +509,26 @@ export function MermaidEditorClient() {
               <div className="w-full h-full rounded" style={{ backgroundColor: customBg }} />
             </label>
           </div>
+
+          <div className="w-px h-5 bg-border" />
+
+          {/* Share + Embed */}
+          <button
+            onClick={shareLink}
+            disabled={!code.trim()}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium hover:bg-accent transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {shareCopied ? <Check className="h-3.5 w-3.5" /> : <Share2 className="h-3.5 w-3.5" />}
+            {shareCopied ? "Copied!" : "Share"}
+          </button>
+          <button
+            onClick={copyEmbed}
+            disabled={!code.trim()}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium hover:bg-accent transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {embedCopied ? <Check className="h-3.5 w-3.5" /> : <Code2 className="h-3.5 w-3.5" />}
+            {embedCopied ? "Copied!" : "Embed"}
+          </button>
 
           <div className="w-px h-5 bg-border" />
 

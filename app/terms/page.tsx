@@ -44,9 +44,16 @@ export default function TermsPage() {
             ).
           </p>
           <p>
-            We reserve the right to modify, suspend, or discontinue any part of the Service at any
-            time without notice. We will not be liable to you or any third party for any such
-            modification, suspension, or discontinuance.
+            Certain tools offer a <strong>Share</strong> feature that encodes your content directly
+            into a URL (in the URL fragment). Shared content is not transmitted to or stored on our
+            servers — it exists solely within the URL itself. We have no ability to monitor, moderate,
+            or remove content embedded in shared links. You are solely responsible for the content you
+            share and for ensuring that any shared link complies with applicable law and these Terms.
+          </p>
+          <p>
+            We reserve the right to modify, suspend, or discontinue any part of the Service —
+            including the shareable links feature — at any time without notice. We will not be liable
+            to you or any third party for any such modification, suspension, or discontinuance.
           </p>
         </section>
 
@@ -76,8 +83,14 @@ export default function TermsPage() {
           </p>
           <p>
             You are solely responsible for the legality, accuracy, and appropriateness of any
-            content you create. MeetMarkdown accepts no liability for content you produce using the
-            Service.
+            content you create, including any content you distribute via shareable links.
+            MeetMarkdown accepts no liability for content you produce or share using the Service.
+          </p>
+          <p>
+            When you use the Share or Embed features, you represent and warrant that: (a) you have
+            the right to share the content; (b) the content does not violate any applicable law,
+            regulation, or third-party right; and (c) you accept full responsibility for any
+            consequences arising from the distribution of that content.
           </p>
         </section>
 

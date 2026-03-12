@@ -10,6 +10,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  const guidePages = [
+    { path: "/cheatsheet", priority: 0.9 },
+    { path: "/guide/mermaid", priority: 0.85 },
+    { path: "/guide/tables", priority: 0.8 },
+    { path: "/templates/mermaid", priority: 0.8 },
+  ].map((page) => ({
+    url: `${siteUrl}${page.path}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: page.priority,
+  }));
+
   return [
     {
       url: siteUrl,
@@ -24,6 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     ...toolPages,
+    ...guidePages,
     {
       url: `${siteUrl}/developers`,
       lastModified: new Date(),

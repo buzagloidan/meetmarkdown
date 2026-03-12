@@ -119,6 +119,31 @@ export default function TermsOfUsePage() {
               the content owner&apos;s rights.
             </li>
           </ul>
+
+          <h3>3.5 Misuse of Shareable Links &amp; Embed Features</h3>
+          <ul>
+            <li>
+              Using shareable links or embed codes to distribute content that is unlawful,
+              defamatory, obscene, harassing, threatening, or that infringes any third-party
+              intellectual property rights.
+            </li>
+            <li>
+              Creating shareable links containing malware, phishing content, executable code, or
+              any material designed to harm recipients or their devices.
+            </li>
+            <li>
+              Distributing shareable links containing child sexual abuse material (CSAM), non-
+              consensual intimate imagery, content that incites terrorism or violence, or any
+              other content that is illegal in your jurisdiction.
+            </li>
+            <li>
+              Using the embed feature to display prohibited content on third-party websites.
+            </li>
+            <li>
+              Generating shareable links at high volume for the purpose of spam, SEO manipulation,
+              or automated content distribution.
+            </li>
+          </ul>
         </section>
 
         <section>
@@ -137,6 +162,49 @@ export default function TermsOfUsePage() {
             server-side request to fetch the URL you provide. We do not log or store the content
             retrieved — it is returned directly to your browser — but you are responsible for
             ensuring the fetch is lawful.
+          </p>
+        </section>
+
+        <section>
+          <h2>4A. Shareable Links &amp; Embed Codes</h2>
+          <p>
+            Certain tools offer Share and Embed features that encode your content into a URL. It
+            is important to understand:
+          </p>
+          <ul>
+            <li>
+              <strong>Content is encoded in the URL, not stored on our servers.</strong> Shared
+              content exists entirely within the URL fragment (the portion after <code>#</code>).
+              URL fragments are not transmitted to web servers. We do not and cannot maintain a
+              database of shared links.
+            </li>
+            <li>
+              <strong>We cannot moderate shared content.</strong> Because we never receive or store
+              shared content, we have no technical ability to review, filter, modify, or remove it.
+              MeetMarkdown functions solely as a client-side rendering engine for content provided
+              in the URL.
+            </li>
+            <li>
+              <strong>You are the publisher.</strong> When you generate and distribute a shareable
+              link, you — not MeetMarkdown — are the publisher of that content. You assume full
+              legal responsibility for any content you share, including liability for defamation,
+              copyright infringement, privacy violations, or any other legal claim arising from the
+              shared content.
+            </li>
+            <li>
+              <strong>No expectation of persistence.</strong> Shareable links depend on the current
+              version of MeetMarkdown&apos;s encoding format. We may change, update, or discontinue
+              the encoding scheme at any time, which may render previously generated links
+              unreadable. Shareable links are not a storage or archival service.
+            </li>
+          </ul>
+          <p>
+            If you receive a shareable link containing content that you believe violates these Terms,
+            applicable law, or your rights, please contact us at{" "}
+            <a href="mailto:hello@meetmarkdown.com">hello@meetmarkdown.com</a>. While we cannot
+            remove content from links already in circulation (as the content is embedded in the URL
+            itself, not on our servers), we take reports seriously and will take any action within
+            our technical capability, including disabling the sharing feature if necessary.
           </p>
         </section>
 

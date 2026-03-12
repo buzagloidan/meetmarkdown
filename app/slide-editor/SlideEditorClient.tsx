@@ -6,8 +6,11 @@ import {
   ChevronRight,
   Download,
   FileCode2,
+  Share2,
+  Check,
 } from "lucide-react";
 import { toast } from "sonner";
+import { buildShareUrl, decodeShareContent } from "@/lib/share";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -292,8 +295,21 @@ export function SlideEditorClient() {
   const [activeTab, setActiveTab] = useState<Tab>("editor");
   const [scale, setScale] = useState(1);
 
+  const [shareCopied, setShareCopied] = useState(false);
+
   const previewRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Load shared content from URL hash on mount
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+    const decoded = decodeShareContent(hash);
+    if (decoded) {
+      setCode(decoded);
+      history.replaceState(null, "", window.location.pathname);
+    }
+  }, []);
 
   // Scale slide canvas to fit preview area
   useEffect(() => {
@@ -431,8 +447,26 @@ ${renderedHtml}
           </button>
         </div>
 
-        {/* Export buttons */}
+        {/* Share + Export buttons */}
         <div className="flex items-center gap-2">
+          <button
+            onClick={async () => {
+              if (!code.trim()) { toast.error("Nothing to share"); return; }
+              const url = buildShareUrl("/slide-editor", code);
+              if (url.length > 100_000) { toast.error("Content too large to share via URL"); return; }
+              try {
+                await navigator.clipboard.writeText(url);
+                setShareCopied(true);
+                toast.success("Share link copied to clipboard");
+                setTimeout(() => setShareCopied(false), 2000);
+              } catch { toast.error("Could not copy to clipboard"); }
+            }}
+            disabled={!code.trim()}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium hover:bg-accent transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {shareCopied ? <Check className="h-3.5 w-3.5" /> : <Share2 className="h-3.5 w-3.5" />}
+            {shareCopied ? "Copied!" : "Share"}
+          </button>
           <button
             onClick={exportMarkdown}
             disabled={!code.trim()}

@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/CopyButton";
+import { ShareButton } from "@/components/shared/ShareButton";
 import { DownloadButton } from "@/components/shared/DownloadButton";
+import { useSharedContent } from "@/lib/use-shared-content";
 import { Loader2, TableIcon, Plus } from "lucide-react";
 
 const SAMPLE_TABLE = `| Name | Role | Status |
@@ -20,6 +22,8 @@ export function TableFormatterClient() {
   const [error, setError] = useState("");
   const [rows, setRows] = useState(3);
   const [cols, setCols] = useState(3);
+
+  useSharedContent(useCallback((v: string) => setInput(v), []));
 
   async function format() {
     if (!input.trim()) return;
@@ -81,9 +85,12 @@ export function TableFormatterClient() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label className="text-sm font-medium">Paste your table</label>
-            <Button variant="ghost" size="sm" onClick={() => { setInput(SAMPLE_TABLE); setOutput(""); }}>
-              Load example
-            </Button>
+            <div className="flex gap-2">
+              <ShareButton path="/table-formatter" content={input} />
+              <Button variant="ghost" size="sm" onClick={() => { setInput(SAMPLE_TABLE); setOutput(""); }}>
+                Load example
+              </Button>
+            </div>
           </div>
           <textarea
             value={input}

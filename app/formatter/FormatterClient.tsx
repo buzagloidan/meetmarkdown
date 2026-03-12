@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/CopyButton";
+import { ShareButton } from "@/components/shared/ShareButton";
 import { DownloadButton } from "@/components/shared/DownloadButton";
+import { useSharedContent } from "@/lib/use-shared-content";
 import { Loader2, Wand2 } from "lucide-react";
 
 const PLACEHOLDER = `# My Doc
@@ -26,6 +28,8 @@ export function FormatterClient() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  useSharedContent(useCallback((v: string) => setInput(v), []));
+
   async function format() {
     if (!input.trim()) return;
     setLoading(true);
@@ -47,9 +51,12 @@ export function FormatterClient() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label className="text-sm font-medium">Input</label>
-            <Button variant="ghost" size="sm" onClick={() => setInput("")}>
-              Clear
-            </Button>
+            <div className="flex gap-2">
+              <ShareButton path="/formatter" content={input} />
+              <Button variant="ghost" size="sm" onClick={() => setInput("")}>
+                Clear
+              </Button>
+            </div>
           </div>
           <textarea
             value={input}

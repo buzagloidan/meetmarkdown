@@ -1,8 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { Clock, FileText, Hash, Rows, AlignLeft, Heading } from "lucide-react";
 import { analyzeMarkdown } from "@/lib/word-count";
+import { ShareButton } from "@/components/shared/ShareButton";
+import { useSharedContent } from "@/lib/use-shared-content";
 
 interface StatCardProps {
   icon: React.ReactNode;
@@ -24,10 +26,14 @@ function StatCard({ icon, label, value }: StatCardProps) {
 
 export function WordCountClient() {
   const [content, setContent] = useState("");
+  useSharedContent(useCallback((v: string) => setContent(v), []));
   const stats = useMemo(() => analyzeMarkdown(content), [content]);
 
   return (
     <div className="space-y-8">
+      <div className="flex justify-end">
+        <ShareButton path="/word-count" content={content} />
+      </div>
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}

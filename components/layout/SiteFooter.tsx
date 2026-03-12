@@ -5,7 +5,7 @@ import { tools } from "@/lib/tools";
 export function SiteFooter() {
   return (
     <footer className="border-t mt-16 bg-muted/20">
-      <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-3 gap-10">
+      <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
         {/* Brand */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
@@ -38,6 +38,35 @@ export function SiteFooter() {
                 </Link>
               </li>
             ))}
+          </ul>
+        </div>
+
+        {/* Guides */}
+        <div className="space-y-3">
+          <h4 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground">
+            Guides
+          </h4>
+          <ul className="space-y-2">
+            <li>
+              <Link href="/cheatsheet" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Markdown Cheat Sheet
+              </Link>
+            </li>
+            <li>
+              <Link href="/guide/mermaid" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Mermaid Diagram Guide
+              </Link>
+            </li>
+            <li>
+              <Link href="/guide/tables" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Markdown Tables Guide
+              </Link>
+            </li>
+            <li>
+              <Link href="/templates/mermaid" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Mermaid Templates
+              </Link>
+            </li>
           </ul>
         </div>
 
