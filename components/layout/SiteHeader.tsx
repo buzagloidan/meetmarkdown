@@ -194,7 +194,7 @@ export function SiteHeader() {
             </button>
 
             {mobileOpen && (
-              <div className="absolute right-0 top-full mt-3 w-[280px] rounded-2xl border bg-popover shadow-xl p-3 space-y-1">
+              <div className="absolute right-0 top-full mt-3 w-[280px] max-h-[calc(100vh-5rem)] overflow-y-auto rounded-2xl border bg-popover shadow-xl p-3 space-y-1">
                 <Link
                   href="/editor"
                   onClick={closeMobile}
