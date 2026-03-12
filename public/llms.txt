@@ -1,0 +1,35 @@
+# MeetMarkdown
+
+> Free online markdown tools — format, convert, diff, and analyze markdown.
+
+## Tools
+
+- Formatter: Auto-format markdown with consistent spacing and aligned tables
+- Markdown to HTML: Convert markdown to clean, semantic HTML
+- HTML to Markdown: Convert HTML to clean, readable markdown
+- Word Count & Stats: Word count, character count, reading time, heading structure
+- Markdown Diff: Compare two markdown documents line by line
+- Table Formatter: Align and clean up GFM markdown tables
+- Markdown to PDF: Render markdown as a styled PDF (browser only)
+- Mermaid Live Editor: Write and export Mermaid diagrams (browser only)
+- Marp Slide Editor: Create markdown presentations (browser only)
+- URL to Markdown: Fetch any URL as markdown (uses r.jina.ai)
+
+## API
+
+REST API available at https://meetmarkdown.com/api/v1/
+
+Endpoints:
+- POST /api/v1/format — Format markdown
+- POST /api/v1/to-html — Convert markdown to HTML
+- POST /api/v1/html-to-markdown — Convert HTML to markdown
+- POST /api/v1/word-count — Analyze markdown statistics
+- POST /api/v1/diff — Compare two markdown documents
+- POST /api/v1/table-format — Format markdown tables
+
+All endpoints accept JSON. 100KB input limit. Rate limited to 60 req/min.
+
+## Docs
+
+- API documentation: https://meetmarkdown.com/developers
+- OpenAPI spec: https://meetmarkdown.com/.well-known/openapi.json

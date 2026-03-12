@@ -25,6 +25,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...toolPages,
     {
+      url: `${siteUrl}/developers`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
       url: `${siteUrl}/privacy`,
       lastModified: new Date(),
       changeFrequency: "yearly" as const,

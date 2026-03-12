@@ -1,0 +1,360 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MeetMarkdown API",
+    "description": "Free markdown tools API — format, convert, diff, and analyze markdown programmatically.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "MeetMarkdown",
+      "url": "https://meetmarkdown.com/developers"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://meetmarkdown.com",
+      "description": "Production"
+    }
+  ],
+  "paths": {
+    "/api/v1/format": {
+      "post": {
+        "operationId": "formatMarkdown",
+        "summary": "Format markdown",
+        "description": "Auto-format markdown with consistent spacing, prose wrapping at 80 characters, and aligned tables.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["markdown"],
+                "properties": {
+                  "markdown": {
+                    "type": "string",
+                    "description": "The markdown text to format"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Formatted markdown",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/api/v1/to-html": {
+      "post": {
+        "operationId": "markdownToHtml",
+        "summary": "Convert markdown to HTML",
+        "description": "Convert markdown to clean, semantic HTML with syntax highlighting for code blocks. Supports GFM.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["markdown"],
+                "properties": {
+                  "markdown": {
+                    "type": "string",
+                    "description": "The markdown text to convert"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "HTML output",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/api/v1/html-to-markdown": {
+      "post": {
+        "operationId": "htmlToMarkdown",
+        "summary": "Convert HTML to markdown",
+        "description": "Convert HTML to clean, readable markdown. Supports tables, links, lists, and other common HTML elements.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["html"],
+                "properties": {
+                  "html": {
+                    "type": "string",
+                    "description": "The HTML to convert"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Markdown output",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/api/v1/word-count": {
+      "post": {
+        "operationId": "wordCount",
+        "summary": "Analyze markdown statistics",
+        "description": "Returns word count, character count, reading time, heading structure, and more. Code blocks are excluded from word count.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["markdown"],
+                "properties": {
+                  "markdown": {
+                    "type": "string",
+                    "description": "The markdown text to analyze"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Markdown statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stats": {
+                      "type": "object",
+                      "properties": {
+                        "words": { "type": "integer" },
+                        "chars": { "type": "integer" },
+                        "charsNoSpaces": { "type": "integer" },
+                        "lines": { "type": "integer" },
+                        "paragraphs": { "type": "integer" },
+                        "readingTime": { "type": "string" },
+                        "headings": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "level": { "type": "integer" },
+                              "text": { "type": "string" }
+                            }
+                          }
+                        },
+                        "codeBlocks": { "type": "integer" },
+                        "links": { "type": "integer" },
+                        "images": { "type": "integer" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/api/v1/diff": {
+      "post": {
+        "operationId": "diffMarkdown",
+        "summary": "Compare two markdown documents",
+        "description": "Compare two markdown documents line by line. Returns changes with added/removed line counts.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["original", "modified"],
+                "properties": {
+                  "original": {
+                    "type": "string",
+                    "description": "The original markdown text"
+                  },
+                  "modified": {
+                    "type": "string",
+                    "description": "The modified markdown text"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Diff result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "diff": {
+                      "type": "object",
+                      "properties": {
+                        "changes": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "value": { "type": "string" },
+                              "count": { "type": "integer" },
+                              "added": { "type": "boolean" },
+                              "removed": { "type": "boolean" }
+                            }
+                          }
+                        },
+                        "added": { "type": "integer" },
+                        "removed": { "type": "integer" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/api/v1/table-format": {
+      "post": {
+        "operationId": "formatTable",
+        "summary": "Format markdown tables",
+        "description": "Format and align markdown tables with consistent spacing.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["markdown"],
+                "properties": {
+                  "markdown": {
+                    "type": "string",
+                    "description": "The markdown containing tables to format"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Formatted table markdown",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "BadRequest": {
+        "description": "Missing or invalid input",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "PayloadTooLarge": {
+        "description": "Input exceeds 100KB limit",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "Rate limit exceeded (60 req/min)",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

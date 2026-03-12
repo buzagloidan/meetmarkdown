@@ -1,0 +1,170 @@
+# MeetMarkdown — Full API Reference
+
+> Free online markdown tools with a public REST API for programmatic access.
+
+Website: https://meetmarkdown.com
+API Base: https://meetmarkdown.com/api/v1
+OpenAPI Spec: https://meetmarkdown.com/.well-known/openapi.json
+
+## Authentication
+
+No authentication required. Rate limited to 60 requests per minute per IP.
+
+## Common Details
+
+- Content-Type: application/json
+- Maximum input size: 100KB
+- All markdown inputs support GitHub Flavored Markdown (GFM)
+- CORS enabled for all origins
+
+---
+
+## POST /api/v1/format
+
+Format markdown with consistent spacing, prose wrapping at 80 characters, and aligned tables.
+
+**Request:**
+```json
+{ "markdown": "# Hello\nworld" }
+```
+
+**Response:**
+```json
+{ "result": "# Hello\n\nworld\n" }
+```
+
+---
+
+## POST /api/v1/to-html
+
+Convert markdown to clean, semantic HTML with syntax highlighting for code blocks.
+
+**Request:**
+```json
+{ "markdown": "# Hello\n\n**bold** text" }
+```
+
+**Response:**
+```json
+{ "result": "<h1>Hello</h1>\n<p><strong>bold</strong> text</p>" }
+```
+
+---
+
+## POST /api/v1/html-to-markdown
+
+Convert HTML to clean, readable markdown. Supports tables, links, lists, and other common HTML elements.
+
+**Request:**
+```json
+{ "html": "<h1>Hello</h1><p><strong>bold</strong> text</p>" }
+```
+
+**Response:**
+```json
+{ "result": "# Hello\n\n**bold** text" }
+```
+
+---
+
+## POST /api/v1/word-count
+
+Analyze markdown and return word count, character count, reading time, heading structure, and more. Code blocks and inline code are excluded from word count.
+
+**Request:**
+```json
+{ "markdown": "# Hello\n\nThis is a paragraph with **bold** text.\n\n## Section 2\n\nMore content here." }
+```
+
+**Response:**
+```json
+{
+  "stats": {
+    "words": 11,
+    "chars": 74,
+    "charsNoSpaces": 61,
+    "lines": 7,
+    "paragraphs": 4,
+    "readingTime": "3s",
+    "headings": [
+      { "level": 1, "text": "Hello" },
+      { "level": 2, "text": "Section 2" }
+    ],
+    "codeBlocks": 0,
+    "links": 0,
+    "images": 0
+  }
+}
+```
+
+---
+
+## POST /api/v1/diff
+
+Compare two markdown documents line by line. Returns a list of changes with added/removed line counts.
+
+**Request:**
+```json
+{
+  "original": "# Hello\n\nFirst version.",
+  "modified": "# Hello\n\nSecond version.\n\nNew paragraph."
+}
+```
+
+**Response:**
+```json
+{
+  "diff": {
+    "changes": [
+      { "value": "# Hello\n\n", "count": 2 },
+      { "value": "First version.\n", "count": 1, "removed": true },
+      { "value": "Second version.\n\nNew paragraph.\n", "count": 3, "added": true }
+    ],
+    "added": 3,
+    "removed": 1
+  }
+}
+```
+
+---
+
+## POST /api/v1/table-format
+
+Format and align markdown tables. Input must contain at least one GFM table.
+
+**Request:**
+```json
+{ "markdown": "| Name | Role |\n|---|---|\n| Alice | Developer |\n| Bob | Designer |" }
+```
+
+**Response:**
+```json
+{ "result": "| Name  | Role      |\n| ----- | --------- |\n| Alice | Developer |\n| Bob   | Designer  |\n" }
+```
+
+---
+
+## Error Responses
+
+All endpoints return errors in this format:
+
+```json
+{ "error": "Description of what went wrong" }
+```
+
+Common status codes:
+- 400 — Missing or invalid input
+- 413 — Input exceeds 100KB limit
+- 429 — Rate limit exceeded (check Retry-After header)
+- 500 — Internal server error
+
+---
+
+## Tools Not Available via API
+
+These tools require a browser environment and are only available on the website:
+
+- **Markdown to PDF** (https://meetmarkdown.com/to-pdf) — Uses browser print dialog
+- **Mermaid Live Editor** (https://meetmarkdown.com/mermaid-editor) — DOM-based diagram rendering
+- **Marp Slide Editor** (https://meetmarkdown.com/slide-editor) — DOM-based slide preview
+- **URL to Markdown** (https://meetmarkdown.com/url-to-markdown) — Proxies to r.jina.ai; use their API directly: https://r.jina.ai/{url}

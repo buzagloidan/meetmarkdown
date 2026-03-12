@@ -84,6 +84,15 @@ export function SiteHeader() {
             Mermaid Editor
           </Link>
 
+          <Link
+            href="/developers"
+            className={`hidden md:inline-flex px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200 ${
+              scrolled ? "rounded-full" : "rounded-lg"
+            }`}
+          >
+            Developers
+          </Link>
+
           {/* Tools dropdown — desktop only */}
           <div ref={toolsRef} className="relative hidden md:block">
             <button
@@ -153,6 +162,14 @@ export function SiteHeader() {
                   className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-accent transition-colors text-sm font-medium"
                 >
                   Mermaid Editor
+                </Link>
+
+                <Link
+                  href="/developers"
+                  onClick={closeMobile}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-accent transition-colors text-sm font-medium"
+                >
+                  Developers
                 </Link>
 
                 <div className="border-t my-2" />

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { HeroSection } from "@/components/home/HeroSection";
 import { ToolGrid } from "@/components/home/ToolGrid";
+import { ApiBanner } from "@/components/home/ApiBanner";
 import { JsonLdWebSite, JsonLdItemList } from "@/components/shared/JsonLd";
 import { tools, siteUrl } from "@/lib/tools";
 
@@ -17,6 +19,8 @@ export const metadata: Metadata = {
     "markdown to pdf",
     "free markdown tools",
     "online markdown editor",
+    "markdown api",
+    "markdown tools api",
   ],
   alternates: { canonical: "/" },
 };
@@ -30,6 +34,7 @@ export default function HomePage() {
       />
       <HeroSection />
       <ToolGrid />
+      <ApiBanner />
     </>
   );
 }

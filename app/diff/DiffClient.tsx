@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { diffLines, type Change } from "diff";
+import { type Change } from "diff";
+import { diffMarkdown } from "@/lib/diff";
 import { cn } from "@/lib/cn";
 
 const SAMPLE_A = `# Project README
@@ -42,13 +43,10 @@ export function DiffClient() {
   const [left, setLeft] = useState("");
   const [right, setRight] = useState("");
 
-  const changes: Change[] = useMemo(() => {
-    if (!left && !right) return [];
-    return diffLines(left, right);
+  const { changes, added, removed } = useMemo(() => {
+    if (!left && !right) return { changes: [] as Change[], added: 0, removed: 0 };
+    return diffMarkdown(left, right);
   }, [left, right]);
-
-  const added = changes.filter((c) => c.added).reduce((n, c) => n + (c.count ?? 0), 0);
-  const removed = changes.filter((c) => c.removed).reduce((n, c) => n + (c.count ?? 0), 0);
 
   return (
     <div className="space-y-6">

@@ -41,12 +41,20 @@ export function SiteFooter() {
           </ul>
         </div>
 
-        {/* Legal */}
+        {/* Resources & Legal */}
         <div className="space-y-3">
           <h4 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground">
-            Legal
+            Resources
           </h4>
           <ul className="space-y-2">
+            <li>
+              <Link
+                href="/developers"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                API for Developers
+              </Link>
+            </li>
             <li>
               <Link
                 href="/contact"
