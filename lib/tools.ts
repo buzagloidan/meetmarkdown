@@ -10,6 +10,7 @@ import {
   Workflow,
   Presentation,
   Sigma,
+  Github,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -133,6 +134,16 @@ export const tools: Tool[] = [
     icon: Sigma,
     keywords: ["latex editor online", "latex math editor", "markdown latex", "math equation editor", "katex editor", "latex to markdown", "math in markdown"],
     color: "emerald",
+  },
+  {
+    slug: "github-markdown",
+    href: "/github-markdown",
+    title: "GitHub Markdown Viewer",
+    description:
+      "Paste any GitHub URL and instantly render the markdown file with full styling — math equations, Mermaid diagrams, syntax highlighting, and more. Export as PDF or HTML.",
+    icon: Github,
+    keywords: ["github markdown viewer", "github readme viewer", "render github markdown", "github markdown preview", "github readme preview", "view github markdown online"],
+    color: "slate",
   },
 ];
 

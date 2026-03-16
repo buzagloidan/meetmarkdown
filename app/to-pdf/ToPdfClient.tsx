@@ -130,6 +130,10 @@ export function ToPdfClient() {
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
           Write your document, then use <strong>Print / Save as PDF</strong> to export.
+          <span className="ml-1 inline-flex items-center gap-1 text-xs text-green-600 dark:text-green-400">
+            <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            100% client-side — your content never leaves your browser
+          </span>
         </p>
         <div className="flex gap-2">
           <ShareButton path="/to-pdf" content={content} />

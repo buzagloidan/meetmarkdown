@@ -72,10 +72,16 @@ export function ToHtmlClient() {
         />
       </div>
       {error && <p className="text-sm text-destructive">Error: {error}</p>}
-      <Button onClick={convert} disabled={loading || !input.trim()} size="lg" className="gap-2">
-        {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Globe className="h-4 w-4" />}
-        Convert to HTML
-      </Button>
+      <div className="flex items-center gap-4">
+        <Button onClick={convert} disabled={loading || !input.trim()} size="lg" className="gap-2">
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Globe className="h-4 w-4" />}
+          Convert to HTML
+        </Button>
+        <span className="inline-flex items-center gap-1 text-xs text-green-600 dark:text-green-400">
+          <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          100% client-side — nothing is uploaded
+        </span>
+      </div>
       {output && (
         <Tabs defaultValue="snippet">
           <div className="flex items-center justify-between mb-3">
