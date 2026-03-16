@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { tools } from "@/lib/tools";
+import { JsonLdFaq, JsonLdBreadcrumb } from "@/components/shared/JsonLd";
 
 export const metadata: Metadata = {
   title: "FAQ & Help",
@@ -68,7 +69,7 @@ flowchart TD
       },
       {
         q: "Does the editor save my work?",
-        a: "Not currently — the content lives in memory for the duration of your session. Use the Download button to save your work as a .md file. Persistent local save (localStorage) is planned for a future update.",
+        a: "Not currently — the content lives in memory for the duration of your session. Use the Download button to save your work as a .md file, or use the Share button to generate a link you can bookmark and revisit later.",
       },
     ],
   },
@@ -150,9 +151,26 @@ flowchart TD
   },
 ];
 
+// Plain-text Q&A pairs for FAQPage JSON-LD (Google requires plain text, not HTML)
+const faqJsonLd = [
+  { question: "Is MeetMarkdown really free?", answer: "Yes, completely. All tools are free to use with no account required, no usage limits, and no hidden fees." },
+  { question: "Do you store my content?", answer: "No. Every tool on MeetMarkdown runs entirely in your browser. Your markdown never leaves your device." },
+  { question: "Do I need to create an account?", answer: "No. There is no sign-up, no login, and no account of any kind. Open a tool and start using it immediately." },
+  { question: "Does MeetMarkdown work offline?", answer: "Once the page has loaded, most tools work entirely client-side and will continue to work offline. The URL to Markdown tool requires a network connection." },
+  { question: "Which markdown flavour do you support?", answer: "GitHub Flavored Markdown (GFM), which includes tables, strikethrough, task lists, and fenced code blocks. Mermaid diagrams are also supported." },
+  { question: "How do I render a Mermaid diagram?", answer: "Wrap your diagram code in a fenced code block with the language set to mermaid. Supported types include flowchart, sequence, class, state, ER, Gantt, pie, and more." },
+  { question: "Does the editor save my work?", answer: "Not currently. Use the Download button to save as a .md file, or the Share button to generate a bookmarkable link." },
+  { question: "How does the PDF export work?", answer: "Click Print / Save as PDF. Your browser's native print dialog opens — select Save as PDF as the destination." },
+  { question: "What does the Formatter actually change?", answer: "It runs your markdown through Prettier, which normalises heading styles, wraps long lines, ensures consistent list markers, removes trailing whitespace, and aligns table columns." },
+  { question: "What data do you collect?", answer: "Almost nothing. We collect standard server access logs via Vercel and store your theme preference in localStorage. We do not use analytics or tracking cookies." },
+  { question: "Can I use MeetMarkdown for sensitive or confidential documents?", answer: "Yes. All processing happens locally in your browser. The only exception is the URL to Markdown tool, which makes a server-side request to fetch the target URL." },
+];
+
 export default function FaqPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-16">
+      <JsonLdFaq questions={faqJsonLd} />
+      <JsonLdBreadcrumb items={[{ name: "FAQ & Help", href: "/faq" }]} />
       <div className="mb-12">
         <h1 className="text-4xl font-extrabold mb-3">FAQ & Help</h1>
         <p className="text-muted-foreground text-lg">

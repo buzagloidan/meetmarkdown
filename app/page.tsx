@@ -7,10 +7,11 @@ import { JsonLdWebSite, JsonLdItemList } from "@/components/shared/JsonLd";
 import { tools, siteUrl } from "@/lib/tools";
 
 export const metadata: Metadata = {
-  title: "MeetMarkdown — Free Online Markdown Tools",
+  title: "MeetMarkdown – Free Online Markdown Tools | Markdown Tools Online",
   description:
-    "Free online markdown tools: live editor, Mermaid diagram editor, formatter, HTML converter, table formatter, diff, PDF export, and more. No sign-up, no upload, no tracking.",
+    "Free online markdown tools — live editor, Mermaid diagrams, formatter, HTML/PDF export, and more. No sign-up, no tracking. Use markdown tools online today.",
   keywords: [
+    "markdown tools online",
     "markdown tools",
     "markdown editor online",
     "mermaid diagram editor",

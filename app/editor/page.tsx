@@ -29,6 +29,7 @@ export default function EditorPage() {
       <ToolPageShell
         title="Markdown Live Editor"
         description="Write and preview markdown in real-time. Renders Mermaid diagrams, tables, and syntax-highlighted code inline."
+        href="/editor"
       >
         <EditorClient />
       </ToolPageShell>

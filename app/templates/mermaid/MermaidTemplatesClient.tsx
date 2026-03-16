@@ -570,6 +570,7 @@ export function MermaidTemplatesClient() {
     <ToolPageShell
       title="Mermaid Diagram Templates"
       description="Ready-to-use Mermaid diagram templates. Pick a template and open it directly in the live editor."
+      href="/templates/mermaid"
     >
       {/* Category filter */}
       <div className="flex flex-wrap gap-2 mb-8">

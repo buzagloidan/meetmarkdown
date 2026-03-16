@@ -5,6 +5,8 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
+import { JsonLdOrganization } from "@/components/shared/JsonLd";
+import { FeedbackButton } from "@/components/shared/FeedbackButton";
 import "./globals.css";
 
 const sourceSans = Source_Sans_3({
@@ -32,11 +34,11 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   metadataBase: new URL("https://meetmarkdown.com"),
   title: {
-    default: "MeetMarkdown — Free Online Markdown Tools",
+    default: "MeetMarkdown – Free Online Markdown Tools | Markdown Tools Online",
     template: "%s | MeetMarkdown",
   },
   description:
-    "Free online markdown tools: live editor, Mermaid diagram editor, formatter, HTML converter, PDF export, table formatter, diff, word count, and more. No sign-up required.",
+    "Free online markdown tools — live editor, Mermaid diagrams, formatter, HTML/PDF export, and more. No sign-up, no tracking. Use markdown tools online today.",
   openGraph: {
     type: "website",
     siteName: "MeetMarkdown",
@@ -70,10 +72,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}
       </Script>
       <body className={`${sourceSans.variable} ${sourceCode.variable} ${fraunces.variable} antialiased`}>
+        <JsonLdOrganization />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SiteHeader />
           <main className="min-h-[calc(100vh-56px)] pt-6">{children}</main>
           <SiteFooter />
+          <FeedbackButton />
           <Toaster richColors position="bottom-right" />
         </ThemeProvider>
       </body>

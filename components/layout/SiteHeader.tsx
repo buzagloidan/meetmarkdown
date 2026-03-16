@@ -12,6 +12,7 @@ const guides = [
   { href: "/guide/mermaid", title: "Mermaid Diagram Guide", description: "Complete guide to Mermaid diagram syntax" },
   { href: "/guide/tables", title: "Markdown Tables Guide", description: "How to create and format tables" },
   { href: "/templates/mermaid", title: "Mermaid Templates", description: "Ready-to-use diagram templates" },
+  { href: "/guide/latex", title: "LaTeX Math Guide", description: "How to write math equations in markdown" },
 ];
 
 function GridIcon() {
@@ -94,19 +95,13 @@ export function SiteHeader() {
             Mermaid Editor
           </Link>
 
-          <Link
-            href="/developers"
-            className={`hidden md:inline-flex px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200 ${
-              scrolled ? "rounded-full" : "rounded-lg"
-            }`}
-          >
-            Developers
-          </Link>
-
           {/* Tools dropdown — desktop only */}
           <div ref={toolsRef} className="relative hidden md:block">
             <button
               onClick={() => setToolsOpen((o) => !o)}
+              aria-expanded={toolsOpen}
+              aria-haspopup="true"
+              aria-controls="tools-dropdown"
               className={`flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200 ${
                 scrolled ? "rounded-full" : "rounded-lg"
               }`}
@@ -119,7 +114,7 @@ export function SiteHeader() {
             </button>
 
             {toolsOpen && (
-              <div className="absolute left-0 top-full mt-3 w-[520px] rounded-2xl border bg-popover shadow-xl p-4 grid grid-cols-3 gap-2">
+              <div id="tools-dropdown" role="menu" className="absolute left-0 top-full mt-3 w-[520px] rounded-2xl border bg-popover shadow-xl p-4 grid grid-cols-3 gap-2">
                 {tools.map((tool) => (
                   <Link
                     key={tool.slug}
@@ -146,6 +141,9 @@ export function SiteHeader() {
           <div ref={guidesRef} className="relative hidden md:block">
             <button
               onClick={() => setGuidesOpen((o) => !o)}
+              aria-expanded={guidesOpen}
+              aria-haspopup="true"
+              aria-controls="guides-dropdown"
               className={`flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200 ${
                 scrolled ? "rounded-full" : "rounded-lg"
               }`}
@@ -158,7 +156,7 @@ export function SiteHeader() {
             </button>
 
             {guidesOpen && (
-              <div className="absolute left-0 top-full mt-3 w-[320px] rounded-2xl border bg-popover shadow-xl p-3 space-y-1">
+              <div id="guides-dropdown" role="menu" className="absolute left-0 top-full mt-3 w-[320px] rounded-2xl border bg-popover shadow-xl p-3 space-y-1">
                 {guides.map((guide) => (
                   <Link
                     key={guide.href}
@@ -188,13 +186,16 @@ export function SiteHeader() {
             <button
               onClick={() => setMobileOpen((o) => !o)}
               className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-full transition-colors"
-              aria-label="Open menu"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              aria-haspopup="true"
+              aria-controls="mobile-menu"
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
 
             {mobileOpen && (
-              <div className="absolute right-0 top-full mt-3 w-[280px] max-h-[calc(100vh-5rem)] overflow-y-auto rounded-2xl border bg-popover shadow-xl p-3 space-y-1">
+              <div id="mobile-menu" role="menu" className="absolute right-0 top-full mt-3 w-[280px] max-h-[calc(100vh-5rem)] overflow-y-auto rounded-2xl border bg-popover shadow-xl p-3 space-y-1">
                 <Link
                   href="/editor"
                   onClick={closeMobile}
@@ -208,14 +209,6 @@ export function SiteHeader() {
                   className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-accent transition-colors text-sm font-medium"
                 >
                   Mermaid Editor
-                </Link>
-
-                <Link
-                  href="/developers"
-                  onClick={closeMobile}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-accent transition-colors text-sm font-medium"
-                >
-                  Developers
                 </Link>
 
                 <div className="border-t my-2" />

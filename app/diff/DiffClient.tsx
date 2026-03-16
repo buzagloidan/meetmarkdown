@@ -127,12 +127,12 @@ export function DiffClient() {
         <div className="space-y-3">
           <div className="flex items-center gap-4 text-sm">
             <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
-              <span className="text-muted-foreground">{added} line{added !== 1 ? "s" : ""} added</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-green-500" aria-hidden="true" />
+              <span className="text-muted-foreground">+ {added} line{added !== 1 ? "s" : ""} added</span>
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
-              <span className="text-muted-foreground">{removed} line{removed !== 1 ? "s" : ""} removed</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500" aria-hidden="true" />
+              <span className="text-muted-foreground">&minus; {removed} line{removed !== 1 ? "s" : ""} removed</span>
             </span>
           </div>
 
@@ -151,7 +151,7 @@ export function DiffClient() {
                     !change.added && !change.removed && "text-muted-foreground"
                   )}
                 >
-                  <span className="select-none w-4 shrink-0 text-right opacity-50">
+                  <span className="select-none w-4 shrink-0 text-right opacity-70 font-semibold" aria-hidden="true">
                     {change.added ? "+" : change.removed ? "−" : " "}
                   </span>
                   <span className="truncate">{line || " "}</span>

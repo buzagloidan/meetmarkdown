@@ -19,12 +19,12 @@ export function HeroSection() {
           letterSpacing: "-0.02em",
         }}
       >
-        Markdown anything
+        Markdown tools online
       </h1>
 
       <p className="text-lg sm:text-xl text-muted-foreground max-w-lg mx-auto mb-10">
-        Paste your markdown or start typing — edit, format, convert, and export
-        right in the browser. No account needed.
+        Edit, format, convert, and export markdown right in the browser — free
+        online markdown tools with no sign-up needed.
       </p>
 
       {/* Client-side interactive input */}

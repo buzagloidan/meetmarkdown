@@ -451,16 +451,16 @@ export function MermaidEditorClient() {
       <div className="flex items-center justify-between gap-2 px-4 py-2 border-b bg-background flex-shrink-0 flex-wrap gap-y-2">
         {/* Left: zoom + hand-drawn */}
         <div className="flex items-center gap-1">
-          <button onClick={zoomOut} title="Zoom out" className="p-1.5 rounded hover:bg-accent text-muted-foreground hover:text-foreground transition-colors">
+          <button onClick={zoomOut} title="Zoom out" aria-label="Zoom out" className="p-1.5 rounded hover:bg-accent text-muted-foreground hover:text-foreground transition-colors">
             <ZoomOut className="h-4 w-4" />
           </button>
-          <button onClick={zoomReset} className="px-2 py-1 rounded hover:bg-accent text-xs font-mono text-muted-foreground hover:text-foreground transition-colors min-w-[3.5rem] text-center">
+          <button onClick={zoomReset} aria-label={`Zoom level ${Math.round(zoom * 100)}%, click to reset`} className="px-2 py-1 rounded hover:bg-accent text-xs font-mono text-muted-foreground hover:text-foreground transition-colors min-w-[3.5rem] text-center">
             {Math.round(zoom * 100)}%
           </button>
-          <button onClick={zoomIn} title="Zoom in" className="p-1.5 rounded hover:bg-accent text-muted-foreground hover:text-foreground transition-colors">
+          <button onClick={zoomIn} title="Zoom in" aria-label="Zoom in" className="p-1.5 rounded hover:bg-accent text-muted-foreground hover:text-foreground transition-colors">
             <ZoomIn className="h-4 w-4" />
           </button>
-          <button onClick={zoomReset} title="Reset zoom" className="p-1.5 rounded hover:bg-accent text-muted-foreground hover:text-foreground transition-colors">
+          <button onClick={zoomReset} title="Reset zoom" aria-label="Reset zoom and pan" className="p-1.5 rounded hover:bg-accent text-muted-foreground hover:text-foreground transition-colors">
             <RotateCcw className="h-4 w-4" />
           </button>
 
@@ -469,6 +469,8 @@ export function MermaidEditorClient() {
           <button
             onClick={() => setHandDrawn((v) => !v)}
             title="Toggle hand-drawn style"
+            aria-label="Toggle hand-drawn style"
+            aria-pressed={handDrawn}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium transition-colors ${
               handDrawn ? "bg-primary text-primary-foreground" : "hover:bg-accent text-muted-foreground hover:text-foreground"
             }`}
@@ -487,7 +489,9 @@ export function MermaidEditorClient() {
               <button
                 key={opt}
                 onClick={() => setBg(opt)}
-                title={opt}
+                title={`${opt} background`}
+                aria-label={`${opt} background`}
+                aria-pressed={bg === opt}
                 className={`w-6 h-6 rounded border-2 transition-all ${
                   bg === opt ? "border-primary scale-110" : "border-border hover:border-muted-foreground"
                 } ${
@@ -499,7 +503,7 @@ export function MermaidEditorClient() {
                 }`}
               />
             ))}
-            <label title="Custom color" className={`w-6 h-6 rounded border-2 cursor-pointer transition-all overflow-hidden ${bg === "custom" ? "border-primary scale-110" : "border-border hover:border-muted-foreground"}`}>
+            <label title="Custom background color" aria-label="Custom background color" className={`w-6 h-6 rounded border-2 cursor-pointer transition-all overflow-hidden ${bg === "custom" ? "border-primary scale-110" : "border-border hover:border-muted-foreground"}`}>
               <input
                 type="color"
                 value={customBg}

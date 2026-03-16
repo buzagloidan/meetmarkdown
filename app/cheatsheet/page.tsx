@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ToolPageShell } from "@/components/shared/ToolPageShell";
-import { JsonLd } from "@/components/shared/JsonLd";
+import { JsonLdArticle } from "@/components/shared/JsonLd";
 import { CheatsheetContent } from "./CheatsheetContent";
 
 export const dynamic = "force-static";
@@ -35,14 +35,15 @@ export const metadata: Metadata = {
 export default function CheatsheetPage() {
   return (
     <>
-      <JsonLd
-        name="Markdown Cheat Sheet"
+      <JsonLdArticle
+        title="Markdown Cheat Sheet"
         description="A comprehensive markdown cheat sheet with syntax examples, output previews, and one-click editor links."
         url="/cheatsheet"
       />
       <ToolPageShell
         title="Markdown Cheat Sheet"
         description="Every markdown syntax element in one place — with examples you can try instantly in the editor."
+        href="/cheatsheet"
       >
         <CheatsheetContent />
       </ToolPageShell>

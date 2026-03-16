@@ -13,6 +13,7 @@ export default function ContactPage() {
     <ToolPageShell
       title="Contact Us"
       description="Have a question, suggestion, or found a bug? We'd love to hear from you."
+      href="/contact"
     >
       <ContactClient />
     </ToolPageShell>

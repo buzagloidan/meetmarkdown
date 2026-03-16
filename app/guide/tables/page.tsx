@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JsonLd } from "@/components/shared/JsonLd";
+import { JsonLdArticle } from "@/components/shared/JsonLd";
 import { ToolPageShell } from "@/components/shared/ToolPageShell";
 import { TablesGuideContent } from "./TablesGuideContent";
 
@@ -31,14 +31,15 @@ export const metadata: Metadata = {
 export default function TablesGuidePage() {
   return (
     <>
-      <JsonLd
-        name="Markdown Tables Guide"
+      <JsonLdArticle
+        title="Markdown Tables Guide"
         description="A comprehensive guide to markdown table syntax covering alignment, formatting, multi-line content, and ready-to-copy templates for comparison tables, feature matrices, and more."
         url="/guide/tables"
       />
       <ToolPageShell
         title="Markdown Tables Guide"
         description="Everything you need to know about markdown tables. Each section includes syntax, examples, and a link to try it live in the Table Formatter."
+        href="/guide/tables"
       >
         <TablesGuideContent />
       </ToolPageShell>

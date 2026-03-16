@@ -71,6 +71,7 @@ export default function DevelopersPage() {
     <ToolPageShell
       title="API for Developers & AI Agents"
       description="Free REST API to format, convert, diff, and analyze markdown. Built for developers, scripts, and AI agents. No authentication required."
+      href="/developers"
     >
       <div className="space-y-10">
         <section className="rounded-xl border bg-gradient-to-br from-primary/5 via-background to-primary/5 p-6 space-y-4">

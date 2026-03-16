@@ -17,7 +17,7 @@ export default function ToHtmlPage() {
   return (
     <>
       <JsonLd name={tool.title} description={tool.description} url={tool.href} />
-      <ToolPageShell title={tool.title} description={tool.description}>
+      <ToolPageShell title={tool.title} description={tool.description} href={tool.href}>
         <ToHtmlClient />
       </ToolPageShell>
     </>

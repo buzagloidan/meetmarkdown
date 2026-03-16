@@ -1,15 +1,18 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { JsonLdBreadcrumb } from "./JsonLd";
 
 interface ToolPageShellProps {
   title: string;
   description: string;
+  href?: string;
   children: React.ReactNode;
 }
 
-export function ToolPageShell({ title, description, children }: ToolPageShellProps) {
+export function ToolPageShell({ title, description, href, children }: ToolPageShellProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
+      {href && <JsonLdBreadcrumb items={[{ name: title, href }]} />}
       <nav className="flex items-center gap-1 text-sm text-muted-foreground mb-6">
         <Link href="/" className="hover:text-foreground transition-colors">
           Home
