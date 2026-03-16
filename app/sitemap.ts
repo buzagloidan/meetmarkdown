@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/guide/mermaid", priority: 0.85 },
     { path: "/guide/tables", priority: 0.8 },
     { path: "/templates/mermaid", priority: 0.8 },
+    { path: "/guide/latex", priority: 0.85 },
   ].map((page) => ({
     url: `${siteUrl}${page.path}`,
     lastModified: new Date(),

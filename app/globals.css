@@ -141,6 +141,23 @@
   @apply font-mono text-sm;
 }
 
+/* KaTeX — prevent prose from overriding KaTeX fonts and sizing */
+.prose .katex {
+  font-size: 1.1em;
+}
+
+.prose .katex * {
+  font-family: KaTeX_Main, KaTeX_Math, "Times New Roman", serif;
+  border: none;
+}
+
+.prose .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5em 0;
+  margin: 1em 0;
+}
+
 /* Mermaid — force transparent background at every level */
 [data-slot] svg,
 .mermaid svg {

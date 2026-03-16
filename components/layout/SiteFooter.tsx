@@ -67,6 +67,11 @@ export function SiteFooter() {
                 Mermaid Templates
               </Link>
             </li>
+            <li>
+              <Link href="/guide/latex" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                LaTeX Math Guide
+              </Link>
+            </li>
           </ul>
         </div>
 

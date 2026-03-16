@@ -61,8 +61,10 @@ export async function markdownToRenderedHtml(markdown: string): Promise<string> 
   return doc.body.innerHTML;
 }
 
+const KATEX_CDN = `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" crossorigin="anonymous">`;
+
 export function buildFullHtml(bodyHtml: string): string {
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Document</title><style>${PRINT_STYLES}</style></head><body>${bodyHtml}</body></html>`;
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Document</title>${KATEX_CDN}<style>${PRINT_STYLES}</style></head><body>${bodyHtml}</body></html>`;
 }
 
 /** Open a print-to-PDF dialog for the given markdown */

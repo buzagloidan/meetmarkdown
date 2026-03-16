@@ -105,7 +105,8 @@ export function ToPdfClient() {
     }
     bodyHtml = doc.body.innerHTML;
 
-    const fullHtml = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Document</title><style>${PRINT_STYLES}</style></head><body>${bodyHtml}</body></html>`;
+    const katexCdn = `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" crossorigin="anonymous">`;
+    const fullHtml = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Document</title>${katexCdn}<style>${PRINT_STYLES}</style></head><body>${bodyHtml}</body></html>`;
 
     // Blob URL approach: opens a proper full document — no blank-window quirks
     const blob = new Blob([fullHtml], { type: "text/html" });

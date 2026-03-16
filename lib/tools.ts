@@ -9,6 +9,7 @@ import {
   Link2,
   Workflow,
   Presentation,
+  Sigma,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -122,6 +123,16 @@ export const tools: Tool[] = [
     icon: Presentation,
     keywords: ["marp editor", "markdown slides", "markdown presentation", "marp online", "markdown to slides", "presentation maker"],
     color: "violet",
+  },
+  {
+    slug: "latex-editor",
+    href: "/latex-editor",
+    title: "LaTeX Math Editor",
+    description:
+      "Write LaTeX math in markdown with a live preview. Insert symbols from a palette, use templates for common formulas, and copy or export the result.",
+    icon: Sigma,
+    keywords: ["latex editor online", "latex math editor", "markdown latex", "math equation editor", "katex editor", "latex to markdown", "math in markdown"],
+    color: "emerald",
   },
 ];
 
