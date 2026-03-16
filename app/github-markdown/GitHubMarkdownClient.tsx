@@ -149,9 +149,9 @@ export function GitHubMarkdownClient() {
 
         <div className="flex flex-wrap gap-2">
           {[
-            { label: "Next.js README", url: "https://github.com/vercel/next.js/blob/canary/readme.md" },
+            { label: "Astro", url: "https://github.com/withastro/astro/blob/main/packages/astro/README.md" },
             { label: "Tailwind CSS", url: "https://github.com/tailwindlabs/tailwindcss/blob/main/README.md" },
-            { label: "React README", url: "https://github.com/facebook/react/blob/main/README.md" },
+            { label: "Vite", url: "https://github.com/vitejs/vite/blob/main/README.md" },
           ].map((ex) => (
             <button
               key={ex.label}
