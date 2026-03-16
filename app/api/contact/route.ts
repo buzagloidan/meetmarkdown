@@ -4,9 +4,11 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: NextRequest) {
-  const { name, email, message } = await req.json();
+  const { name, email, message, type } = await req.json();
 
-  if (!name?.trim() || !email?.trim() || !message?.trim()) {
+  const isFeedback = type === "feedback";
+
+  if ((!isFeedback && !name?.trim()) || !email?.trim() || !message?.trim()) {
     return NextResponse.json({ error: "All fields are required." }, { status: 400 });
   }
 
@@ -19,8 +21,12 @@ export async function POST(req: NextRequest) {
       from: "MeetMarkdown Contact <onboarding@resend.dev>",
       to: process.env.CONTACT_EMAIL!,
       replyTo: email,
-      subject: `[MeetMarkdown] Message from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
+      subject: isFeedback
+        ? `[MeetMarkdown] Feedback from ${email}`
+        : `[MeetMarkdown] Message from ${name}`,
+      text: isFeedback
+        ? `Feedback from: ${email}\n\n${message}`
+        : `Name: ${name}\nEmail: ${email}\n\n${message}`,
     });
 
     return NextResponse.json({ ok: true });
