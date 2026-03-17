@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { tools } from "@/lib/tools";
+import { Github } from "lucide-react";
 
 export function SiteFooter() {
   return (
@@ -81,6 +82,17 @@ export function SiteFooter() {
             Resources
           </h4>
           <ul className="space-y-2">
+            <li>
+              <a
+                href="https://github.com/buzagloidan/meetmarkdown"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Github className="h-4 w-4" />
+                GitHub
+              </a>
+            </li>
             <li>
               <Link
                 href="/developers"
