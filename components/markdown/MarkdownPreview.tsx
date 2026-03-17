@@ -13,6 +13,7 @@ import React from "react";
 
 interface MarkdownPreviewProps {
   content: string;
+  scrollRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 function PreBlock({ children }: { children?: React.ReactNode }) {
@@ -25,9 +26,9 @@ function PreBlock({ children }: { children?: React.ReactNode }) {
   return <pre>{children}</pre>;
 }
 
-export function MarkdownPreview({ content }: MarkdownPreviewProps) {
+export function MarkdownPreview({ content, scrollRef }: MarkdownPreviewProps) {
   return (
-    <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none px-4 py-4 h-full overflow-auto">
+    <div ref={scrollRef} className="prose prose-sm sm:prose-base dark:prose-invert max-w-none px-4 py-4 h-full overflow-auto">
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[rehypeRaw, rehypeHighlight, rehypeKatex]}
