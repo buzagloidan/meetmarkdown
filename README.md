@@ -50,7 +50,6 @@ Most markdown tools either require an account, upload your files to a server, or
 - **Diagrams** — [Mermaid](https://mermaid.js.org/)
 - **Math** — [KaTeX](https://katex.org/)
 - **Formatting** — [Prettier](https://prettier.io/) (runs in-browser)
-- **Hosting** — [Vercel](https://vercel.com/)
 
 ## Getting Started
 
