@@ -151,7 +151,7 @@ const THEMES: { name: string; description: string }[] = [
 ];
 
 const DEFAULT_CONFIG = `{
-  "theme": "base"
+  "theme": "default"
 }`;
 
 type BgOption = "transparent" | "white" | "dark" | "custom";
@@ -212,22 +212,7 @@ export function MermaidEditorClient() {
 
       mermaid.initialize({
         startOnLoad: false,
-        theme: "base",
         look: sketch ? "handDrawn" : "classic",
-        flowchart: { htmlLabels: false },
-        themeVariables: {
-          background: "transparent",
-          primaryColor: "#F5E6D3",
-          primaryTextColor: "#4B2E2B",
-          primaryBorderColor: "#C08552",
-          lineColor: "#8C5A3C",
-          secondaryColor: "#FFF8F0",
-          tertiaryColor: "#FFFCF8",
-          edgeLabelBackground: "transparent",
-          clusterBkg: "#F5E6D3",
-          titleColor: "#4B2E2B",
-          fontSize: "15px",
-        },
         ...extraConfig,
       });
 

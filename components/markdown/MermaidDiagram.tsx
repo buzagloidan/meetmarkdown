@@ -17,33 +17,7 @@ export function MermaidDiagram({ code }: { code: string }) {
         const mermaid = (await import("mermaid")).default;
         mermaid.initialize({
           startOnLoad: false,
-          theme: "base",
-          themeVariables:
-            resolvedTheme === "dark"
-              ? {
-                  background: "transparent",
-                  primaryColor: "#3D2218",
-                  primaryTextColor: "#FFF8F0",
-                  primaryBorderColor: "#C08552",
-                  lineColor: "#C08552",
-                  secondaryColor: "#2A1712",
-                  tertiaryColor: "#1E0F0C",
-                  edgeLabelBackground: "transparent",
-                  clusterBkg: "#2A1712",
-                  titleColor: "#FFF8F0",
-                }
-              : {
-                  background: "transparent",
-                  primaryColor: "#F5E6D3",
-                  primaryTextColor: "#4B2E2B",
-                  primaryBorderColor: "#C08552",
-                  lineColor: "#8C5A3C",
-                  secondaryColor: "#FFF8F0",
-                  tertiaryColor: "#FFFCF8",
-                  edgeLabelBackground: "transparent",
-                  clusterBkg: "#F5E6D3",
-                  titleColor: "#4B2E2B",
-                },
+          theme: resolvedTheme === "dark" ? "dark" : "default",
         });
 
         const id = `mermaid-${Math.random().toString(36).slice(2)}`;
