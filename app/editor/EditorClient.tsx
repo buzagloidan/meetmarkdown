@@ -397,7 +397,7 @@ export function EditorClient() {
         </div>
 
         <div className="flex gap-2 items-center">
-          <ShareButton path="/editor" content={content} />
+          <ShareButton path="/s" content={content} />
           <CopyButton text={content} />
 
           {/* Download dropdown */}
