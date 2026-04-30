@@ -11,6 +11,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   images: { unoptimized: true },
+  serverExternalPackages: ["html-docx-js"],
   turbopack: {
     resolveAlias: {
       canvas: "./empty-module.js",
