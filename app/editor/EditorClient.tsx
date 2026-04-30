@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/CopyButton";
 import { ShareButton } from "@/components/shared/ShareButton";
 import { useSharedContent } from "@/lib/use-shared-content";
-import { exportAsPdf, exportAsDocx } from "@/lib/export-utils";
+import { exportAsPdf } from "@/lib/export-utils";
 import { applyCommand } from "@/lib/editor-commands";
 import { EditorToolbar } from "@/components/editor/EditorToolbar";
 import { FocusOverlay } from "@/components/editor/FocusOverlay";
@@ -441,7 +441,9 @@ export function EditorClient() {
                 <button
                   className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition-colors"
                   onClick={() => {
-                    exportAsDocx(contentRef.current, "document");
+                    import("@/lib/docx-export").then(({ exportAsDocx }) => {
+                      exportAsDocx(contentRef.current, "document");
+                    });
                     setDlOpen(false);
                   }}
                 >
